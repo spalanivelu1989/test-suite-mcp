@@ -8,11 +8,9 @@ export const PROJECT_ROOT =
   resolve(dirname(fileURLToPath(import.meta.url)), "../../..");
 
 export const appsDir = () => resolve(PROJECT_ROOT, "apps");
-export const testsDir = () => resolve(PROJECT_ROOT, "tests");
+export const appTestsDir = (app: string) => resolve(appsDir(), app, "tests");
 export const appRunsDir = (app: string) => resolve(appsDir(), app, "runs");
 
 export function ensureWorkspace(): void {
-  for (const dir of [appsDir(), testsDir()]) {
-    mkdirSync(dir, { recursive: true });
-  }
+  mkdirSync(appsDir(), { recursive: true });
 }

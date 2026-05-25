@@ -10,7 +10,7 @@ You are orchestrating the discover stage for app: {{app_name}}
 Spawn the `understanding` sub-agent (spec appended below) with these inputs:
 
 - `app`: `{{app_name}}`
-- `run_dir`: a new timestamped directory `runs/{{app_name}}-<timestamp>/`
+- `run_dir`: a new timestamped directory `apps/{{app_name}}/runs/<timestamp>/`
 
 The sub-agent will:
 
@@ -18,7 +18,7 @@ The sub-agent will:
 2. Open the base URL unauthenticated and detect the auth flow (`xsuaa` | `ias` | `form` | `none`).
 3. Log in per role and save `storageState` to `apps/{{app_name}}/.auth/<role>.json`.
 4. BFS-crawl up to 30 pages per role, capturing URL, ARIA outline, forms, actions, API calls, console errors, and screenshots.
-5. Write `runs/{{app_name}}-<timestamp>/app-model.json`.
+5. Write `apps/{{app_name}}/runs/<timestamp>/app-model.json`.
 
 ## Step 2 — After the crawl completes
 

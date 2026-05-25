@@ -2,7 +2,7 @@ import { execSync } from "child_process";
 import { mkdirSync, existsSync, cpSync, rmSync, readFileSync } from "fs";
 import { join } from "path";
 import { config as loadDotenv } from "dotenv";
-import { PROJECT_ROOT, appRunsDir, testsDir, appsDir } from "../lib/paths.js";
+import { PROJECT_ROOT, appRunsDir, appTestsDir, appsDir } from "../lib/paths.js";
 
 export type TestCategory =
   | "smoke"
@@ -46,8 +46,8 @@ export function runPlaywright(
   }
 
   const testPath = category
-    ? join(testsDir(), app, "generated", category)
-    : join(testsDir(), app);
+    ? join(appTestsDir(app), "generated", category)
+    : appTestsDir(app);
 
   if (!existsSync(testPath)) {
     throw new Error(

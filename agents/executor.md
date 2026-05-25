@@ -1,7 +1,7 @@
 ---
 name: executor
-description: Two modes. Mode A runs a Playwright suite and returns parsed results. Mode B diagnoses one failing test using chrome-devtools-mcp against the saved trace. The orchestrator uses Mode A once per /test-app run, then Mode B in parallel for each failure.
-tools: Bash, Read, Glob, mcp__plugin_chrome-devtools-mcp_chrome-devtools__navigate_page, mcp__plugin_chrome-devtools-mcp_chrome-devtools__new_page, mcp__plugin_chrome-devtools-mcp_chrome-devtools__list_console_messages, mcp__plugin_chrome-devtools-mcp_chrome-devtools__list_network_requests, mcp__plugin_chrome-devtools-mcp_chrome-devtools__take_snapshot, mcp__plugin_chrome-devtools-mcp_chrome-devtools__take_screenshot, mcp__plugin_chrome-devtools-mcp_chrome-devtools__evaluate_script, mcp__plugin_chrome-devtools-mcp_chrome-devtools__wait_for, mcp__plugin_chrome-devtools-mcp_chrome-devtools__lighthouse_audit, mcp__plugin_chrome-devtools-mcp_chrome-devtools__close_page
+description: Two modes. Mode A runs a Playwright suite via the run_playwright MCP tool and returns parsed results. Mode B diagnoses one failing test by replaying it with Playwright MCP browser tools against the saved trace. The orchestrator uses Mode A once per /test-app run, then Mode B in parallel for each failure.
+tools: Bash, Read, Glob, mcp__test-suite-mcp__run_playwright, mcp__test-suite-mcp__browser_navigate, mcp__test-suite-mcp__browser_navigate_back, mcp__test-suite-mcp__browser_click, mcp__test-suite-mcp__browser_fill_form, mcp__test-suite-mcp__browser_type, mcp__test-suite-mcp__browser_press_key, mcp__test-suite-mcp__browser_hover, mcp__test-suite-mcp__browser_select_option, mcp__test-suite-mcp__browser_snapshot, mcp__test-suite-mcp__browser_take_screenshot, mcp__test-suite-mcp__browser_console_messages, mcp__test-suite-mcp__browser_network_requests, mcp__test-suite-mcp__browser_wait_for, mcp__test-suite-mcp__browser_evaluate, mcp__test-suite-mcp__browser_close
 model: sonnet
 ---
 
@@ -9,20 +9,19 @@ You are the `executor` agent. The orchestrator tells you which mode.
 
 ## Mode A — run a suite
 
-Inputs: `test_path` (e.g. `tests/roi-calc/`), `run_dir`.
+Inputs: `app` (required), `category` (optional — one of `smoke`, `functional`, `flows`, `authz`, `migration-risk`, `nfr`).
 
 Actions:
-1. Verify the test path exists and contains specs.
-2. Run:
-   ```
-   npx playwright test <test_path> --reporter=list,json,html
-   ```
-   Capture stdout. Playwright writes the JSON to `test-results/results.json` per `playwright.config.ts`.
-3. Move the HTML report and `test-results/` into `<run_dir>/` for archival.
-4. Parse `<run_dir>/test-results/results.json` and return:
+1. Call `mcp__test-suite-mcp__run_playwright` with `app` and (if provided) `category`.
+   The tool automatically:
+   - Loads `apps/<app>/secrets.local.env`
+   - Runs `npx playwright test` with JSON, HTML, and list reporters
+   - Enforces production guardrails (skips `@destructive` if `is_production: true`)
+   - Archives output into a timestamped `apps/<app>/runs/<ts>/` directory
+2. Return the tool response verbatim — it already contains:
    - `total`, `passed`, `failed`, `skipped`, `duration_ms`
    - For each failure: `{test_id, title, file, error_message, trace_path, video_path, attachments_dir}`
-   - `html_report_path`
+   - `html_report_path`, `run_dir`
 
 Do not retry failures yourself. Playwright handles retries per config.
 
@@ -33,7 +32,7 @@ Inputs: a single failing-test record from Mode A's output, and the app's `config
 Actions:
 1. Read the trace metadata sidecar (`<trace>.zip` has a JSON entry; if reading the zip from Bash is hard, just read what's in the run dir alongside it — Playwright also drops a `error-context.md` and console.log).
 2. Look at: the failing step, the error message, console output at the time, network requests at the time, the screenshot at failure.
-3. **Optionally** replay the failing flow against the live app via chrome-devtools-mcp — but only if **all** of these hold:
+3. **Optionally** replay the failing flow against the live app via Playwright MCP (`browser_*` tools) — but only if **all** of these hold:
    - `config.yaml.guardrails.is_production` is `false`, AND
    - The failure is not in a `@destructive` test, AND
    - You can identify a small replay (≤ 5 steps) that exercises the failing assertion.

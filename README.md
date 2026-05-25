@@ -31,67 +31,15 @@ Workspace directories created at `BROWSER_TESTER_ROOT` on first connection:
   runs/                  ← per-run artifacts
 ```
 
-
-## Publishing to npm
-
-### One-time setup
-
-1. Create an account at [npmjs.com](https://www.npmjs.com) if you don't have one.
-2. Log in from the terminal:
-   ```bash
-   npm login
-   ```
-3. Update the `repository.url` in `package.json` to the real GitHub URL.
-
-### Publish
-
-From the repo root:
-
-```bash
-npm publish
-```
-
-`prepublishOnly` runs `npm run build` automatically before publishing, so no
-manual build step is needed. The package name `test-suite-mcp` must be unique
-on npm — if it's already taken, use a scoped name instead:
-
-```bash
-# rename in package.json first, then:
-npm publish --access public
-```
-
-### Using the published package
-
-Users can then configure any MCP client with:
-
-```json
-{
-  "mcpServers": {
-    "test-suite": {
-      "command": "npx",
-      "args": ["-y", "test-suite-mcp@latest"],
-      "env": {
-        "BROWSER_TESTER_ROOT": "/path/to/any/empty/directory"
-      }
-    }
-  }
-}
-```
-
-`BROWSER_TESTER_ROOT` is **required** when using `npx` — point it at any
-directory on the local machine. The server automatically creates `apps/`,
-`tests/`, and `runs/` inside it on first connection. No manual setup needed.
-
-### Publish a new version
-
-```bash
-npm version patch   # or minor / major
-npm publish
-```
-
----
-
 ## Installation
+
+### Prerequisites
+
+- **Node.js** 18+ (required)
+- **npm** 9+ (required)
+- **System dependencies** (Linux only):
+  - Debian/Ubuntu: `sudo apt-get install -y libnss3 libdbus-1-3 libatk1.0-0 libatk-bridge2.0-0 libcups2 libdrm2 libxkbcommon0 libpango-1.0-0 libpangoft2-1.0-0`
+  - Other distributions: See [Playwright system requirements](https://playwright.dev/docs/intro#system-requirements)
 
 ### Clone and build locally
 
@@ -102,38 +50,20 @@ npm install
 npm run build        # compiles src/ → dist/
 ```
 
+This will automatically:
+1. Install `@playwright/mcp` and all dependencies
+2. Download Playwright browser binaries (Chromium, Firefox, WebKit)
+3. Compile TypeScript to JavaScript in `dist/`
+
+**If browser binaries don't download automatically**, run:
+```bash
+npx playwright install
+```
+
 Point your MCP client at the built binary:
 
 ```
 /absolute/path/to/test-suite-mcp/dist/index.js
-```
-
-See [Configuring clients](#configuring-clients) below for the exact config block per client.
-
-### Update from GitHub
-
-Pull the latest changes and rebuild:
-
-```bash
-cd test-suite-mcp
-git pull origin main
-npm install          # picks up any new dependencies
-npm run build        # recompiles src/ → dist/
-```
-
-Then restart your MCP client to pick up the new binary.
-
-## Setup (development)
-
-```bash
-npm install
-npm run build        # compiles src/ → dist/
-```
-
-For development (no build step):
-
-```bash
-npm run dev          # runs tsx src/index.ts directly
 ```
 
 ## Configuring clients
@@ -141,36 +71,21 @@ npm run dev          # runs tsx src/index.ts directly
 ### Claude Code
 
 ```bash
-claude mcp add --scope user --transport stdio test-suite-mcp -- node /Users/senthilpalanivelu/Programme/test-suite-mcp/dist/index.js
+claude mcp add --scope user --transport stdio test-suite-mcp -- node /absolute/path/to/test-suite-mcp/dist/index.js
 ```
 
-### VS Code (GitHub Copilot)
+Verify Installation in claude code by running the command
+```bash
+❯ /mcp
 
-Create `.vscode/mcp.json` in the test-suite-mcp project root:
+  Manage MCP servers
+  6 servers
 
-```json
-{
-  "servers": {
-    "test-suite": {
-      "type": "stdio",
-      "command": "node",
-      "args": ["${workspaceFolder}/dist/index.js"]
-    }
-  }
-}
-```
-
-Note the top-level key is `servers`, not `mcpServers`. The `${workspaceFolder}`
-variable resolves to the project root automatically.
-
-### OpenAI Codex CLI
-
-Edit `~/.codex/config.toml` (global) or `.codex/config.toml` (project-scoped):
-
-```toml
-[mcp_servers.test-suite]
-command = "node"
-args = ["/absolute/path/to/test-suite-mcp/dist/index.js"]
+    User MCPs (/Users/senthilpalanivelu/.claude.json)
+    magic · ✔ connected · 4 tools
+    stitch · ✔ connected · 14 tools
+    supadata · ✔ connected · 6 tools
+  ❯ test-suite-mcp · ✔ connected · 6 tools
 ```
 
 ### Antigravity (Google IDE)
@@ -188,53 +103,7 @@ Add to Antigravity's MCP settings:
 }
 ```
 
-No `env` block needed — the server resolves the project root from its own file location automatically.
-
-### Cursor / Zed / other MCP clients
-
-Point the client at the built binary with the project root as the working
-directory, or set `BROWSER_TESTER_ROOT` explicitly:
-
-```json
-{
-  "mcpServers": {
-    "test-suite": {
-      "command": "node",
-      "args": ["/absolute/path/to/test-suite-mcp/dist/index.js"],
-      "env": {
-        "BROWSER_TESTER_ROOT": "/absolute/path/to/workspace"
-      }
-    }
-  }
-}
+To remove the server you just added:
+```bash
+claude mcp remove test-suite-mcp
 ```
-
-### Claude.ai (remote MCP — future)
-
-Build the server, deploy it behind an HTTP transport (e.g. using
-`@modelcontextprotocol/sdk`'s `StreamableHTTPServerTransport`), and register
-the URL in Claude.ai's MCP settings. The stdio-based server here is a starting
-point; swapping the transport is a one-line change in `src/index.ts`.
-
-## Environment variables
-
-| Variable              | Default                       | Purpose                                                                                                               |
-| --------------------- | ----------------------------- | --------------------------------------------------------------------------------------------------------------------- |
-| `BROWSER_TESTER_ROOT` | Parent of `dist/` (repo root) | Workspace root — `apps/`, `tests/`, and `runs/` are created here automatically on startup. Required when using `npx`. |
-
-Per-app credentials belong in `apps/<app>/secrets.local.env` (gitignored).
-`run_playwright` loads them automatically; other tools do not need them.
-
-## Capability boundary
-
-This server handles the **deterministic** parts of the workflow:
-
-- File scaffolding
-- Reading crawl artifacts
-- Executing Playwright
-- Reading reports
-
-The **reasoning** parts — detecting auth flows, interpreting DOM structure,
-writing test specs — remain with the LLM using the bundled prompts and agents.
-For full sub-agent orchestration with trace replay, use the Claude Code harness
-directly (`/discover`, `/design`, `/test-app`).

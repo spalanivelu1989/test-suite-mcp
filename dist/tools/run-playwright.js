@@ -2,7 +2,7 @@ import { execSync } from "child_process";
 import { mkdirSync, existsSync, cpSync, rmSync, readFileSync } from "fs";
 import { join } from "path";
 import { config as loadDotenv } from "dotenv";
-import { PROJECT_ROOT, appRunsDir, testsDir, appsDir } from "../lib/paths.js";
+import { PROJECT_ROOT, appRunsDir, appTestsDir, appsDir } from "../lib/paths.js";
 export function runPlaywright(app, category) {
     // Load app secrets into the child process environment
     const secretsFile = join(appsDir(), app, "secrets.local.env");
@@ -12,8 +12,8 @@ export function runPlaywright(app, category) {
         Object.assign(childEnv, parsed.parsed ?? {});
     }
     const testPath = category
-        ? join(testsDir(), app, "generated", category)
-        : join(testsDir(), app);
+        ? join(appTestsDir(app), "generated", category)
+        : appTestsDir(app);
     if (!existsSync(testPath)) {
         throw new Error(`Test path not found: ${testPath}. Run /design ${app} first.`);
     }

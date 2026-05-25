@@ -1,7 +1,7 @@
 ---
 name: understanding
 description: Crawls one deployed BTP app, detects auth flow, captures DOM/network/screenshots per page, and writes app-model.json. Use this when the orchestrator runs /discover.
-tools: mcp__plugin_playwright_playwright__browser_navigate, mcp__plugin_playwright_playwright__browser_navigate_back, mcp__plugin_playwright_playwright__browser_snapshot, mcp__plugin_playwright_playwright__browser_take_screenshot, mcp__plugin_playwright_playwright__browser_click, mcp__plugin_playwright_playwright__browser_type, mcp__plugin_playwright_playwright__browser_fill_form, mcp__plugin_playwright_playwright__browser_press_key, mcp__plugin_playwright_playwright__browser_wait_for, mcp__plugin_playwright_playwright__browser_evaluate, mcp__plugin_playwright_playwright__browser_console_messages, mcp__plugin_playwright_playwright__browser_network_requests, mcp__plugin_playwright_playwright__browser_tabs, mcp__plugin_playwright_playwright__browser_close, mcp__plugin_playwright_playwright__browser_resize, Read, Write, Glob, Bash
+tools: mcp__test-suite-mcp__browser_navigate, mcp__test-suite-mcp__browser_navigate_back, mcp__test-suite-mcp__browser_snapshot, mcp__test-suite-mcp__browser_take_screenshot, mcp__test-suite-mcp__browser_click, mcp__test-suite-mcp__browser_type, mcp__test-suite-mcp__browser_fill_form, mcp__test-suite-mcp__browser_press_key, mcp__test-suite-mcp__browser_wait_for, mcp__test-suite-mcp__browser_evaluate, mcp__test-suite-mcp__browser_console_messages, mcp__test-suite-mcp__browser_network_requests, mcp__test-suite-mcp__browser_tabs, mcp__test-suite-mcp__browser_close, mcp__test-suite-mcp__browser_resize, Read, Write, Glob, Bash
 model: sonnet
 ---
 
@@ -12,7 +12,7 @@ You are the `understanding` agent. You crawl ONE deployed app to build a structu
 - `config.yaml` content (URL, roles, auth.flow if known)
 - `description.md` content (intended journeys — used to bias the crawl toward those areas)
 - Credentials already loaded into env vars (the orchestrator did this)
-- Run directory: `runs/<app>-<timestamp>/`
+- Run directory: `apps/<app>/runs/<timestamp>/`
 
 ## Stages
 
@@ -69,11 +69,11 @@ Skip pages that are:
 ### 4. Write artifacts
 
 ```
-apps/<app>/.auth/<role>.json               # Playwright storageState (stable, gitignored)
-runs/<app>-<ts>/
-├── crawl/<role>/<page-slug>.png           # screenshots
-├── crawl/<role>/<page-slug>.json          # per-page detail
-└── app-model.json                         # top-level summary (schema below)
+apps/<app>/.auth/<role>.json                    # Playwright storageState (stable, gitignored)
+apps/<app>/runs/<timestamp>/
+├── crawl/<role>/<page-slug>.png                # screenshots
+├── crawl/<role>/<page-slug>.json               # per-page detail
+└── app-model.json                              # top-level summary (schema below)
 ```
 
 ### app-model.json schema

@@ -18,6 +18,12 @@ import { listRuns } from "./tools/list-runs.js";
 import { runPlaywright } from "./tools/run-playwright.js";
 import { readReport } from "./tools/read-report.js";
 import { ensureWorkspace } from "./lib/paths.js";
+import {
+  initPlaywrightProxy,
+  getBrowserTools,
+  isBrowserTool,
+  callBrowserTool,
+} from "./lib/playwright-proxy.js";
 
 const PROMPTS_DIR = join(dirname(fileURLToPath(import.meta.url)), "../prompts");
 const AGENTS_DIR = join(dirname(fileURLToPath(import.meta.url)), "../agents");
@@ -50,6 +56,7 @@ const server = new Server(
 
 server.setRequestHandler(ListToolsRequestSchema, async () => ({
   tools: [
+    ...getBrowserTools(),
     {
       name: "list_apps",
       description: "Return every app name registered under apps/.",
@@ -150,6 +157,10 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
   const { name, arguments: args = {} } = request.params;
 
   try {
+    if (isBrowserTool(name)) {
+      return callBrowserTool(name, args as Record<string, unknown>);
+    }
+
     switch (name) {
       case "list_apps": {
         const apps = listApps();
@@ -317,5 +328,6 @@ server.setRequestHandler(GetPromptRequestSchema, async (request) => {
 // ─── Start ────────────────────────────────────────────────────────────────────
 
 ensureWorkspace();
+await initPlaywrightProxy();
 const transport = new StdioServerTransport();
 await server.connect(transport);

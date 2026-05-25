@@ -15,7 +15,7 @@ The tool will:
 
 - Load `secrets.local.env` automatically.
 - Run `npx playwright test` with JSON, HTML, and list reporters.
-- Move output into a timestamped `runs/{{app_name}}-<ts>/` directory.
+- Move output into a timestamped `apps/{{app_name}}/runs/<timestamp>/` directory.
 - Return pass/fail counts and per-failure metadata.
 
 ## Step 2 — Diagnose failures

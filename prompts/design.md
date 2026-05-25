@@ -26,7 +26,7 @@ Pass to each sub-agent:
 - `app_model`: result of `read_app_model`
 - `description_path`: `apps/{{app_name}}/description.md`
 
-## Output: `tests/{{app_name}}/generated/<category>/*.spec.ts`
+## Output: `apps/{{app_name}}/tests/generated/<category>/*.spec.ts`
 
 ## Step 2 — After design completes
 
@@ -34,5 +34,5 @@ Tell the user they can run the **test-app** prompt to execute the generated suit
 
 ## Constraints
 
-- `tests/{{app_name}}/curated/` is never touched by this stage.
+- `apps/{{app_name}}/tests/curated/` is never touched by this stage.
 - All specs must route auth through `lib/fixtures.ts` — no hardcoded `storageState` paths.
