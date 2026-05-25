@@ -1,0 +1,33 @@
+{
+  "name": "browser-tester-mcp",
+  "version": "0.1.0",
+  "description": "MCP server for the browser-tester QA harness — tools and prompts for crawling, test generation, and Playwright execution.",
+  "type": "module",
+  "bin": {
+    "browser-tester-mcp": "./dist/index.js"
+  },
+  "files": [
+    "dist",
+    "agents",
+    "prompts"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsx src/index.ts",
+    "start": "node dist/index.js",
+    "prepublishOnly": "npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-org/browser-tester.git"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0",
+    "dotenv": "^16.4.5"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "tsx": "^4.22.3",
+    "typescript": "^5.6.0"
+  }
+}
