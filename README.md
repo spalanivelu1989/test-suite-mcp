@@ -138,51 +138,11 @@ npm run dev          # runs tsx src/index.ts directly
 
 ## Configuring clients
 
-### Claude Code (project-level)
+### Claude Code
 
-Add to `.claude/settings.json` in the test-suite-mcp project root:
-
-```json
-{
-  "mcpServers": {
-    "test-suite": {
-      "command": "node",
-      "args": ["./dist/index.js"]
-    }
-  }
-}
+```bash
+claude mcp add --scope user --transport stdio test-suite-mcp -- node /Users/senthilpalanivelu/Programme/test-suite-mcp/dist/index.js
 ```
-
-Development variant (no build required):
-
-```json
-{
-  "mcpServers": {
-    "test-suite": {
-      "command": "npx",
-      "args": ["tsx", "./src/index.ts"]
-    }
-  }
-}
-```
-
-### Claude Desktop
-
-Edit `~/Library/Application Support/Claude/claude_desktop_config.json` (macOS)
-or `%APPDATA%\Claude\claude_desktop_config.json` (Windows):
-
-```json
-{
-  "mcpServers": {
-    "test-suite": {
-      "command": "node",
-      "args": ["/absolute/path/to/test-suite-mcp/dist/index.js"]
-    }
-  }
-}
-```
-
-Restart Claude Desktop after saving.
 
 ### VS Code (GitHub Copilot)
 
