@@ -31,36 +31,6 @@ Workspace directories created at `BROWSER_TESTER_ROOT` on first connection:
   runs/                  ← per-run artifacts
 ```
 
-## Tools
-
-| Tool                             | Description                                                                                         |
-| -------------------------------- | --------------------------------------------------------------------------------------------------- |
-| `list_apps`                      | List all registered app names under `apps/`                                                         |
-| `scaffold_app(name)`             | Create `apps/<name>/` with starter `config.yaml`, `description.md`, and `secrets.local.env.example` |
-| `read_app_model(app)`            | Return the most recent `app-model.json` for an app                                                  |
-| `list_runs(app)`                 | List run directories for an app, newest first                                                       |
-| `run_playwright(app, category?)` | Run the Playwright suite; returns pass/fail counts + per-failure metadata                           |
-| `read_report(app, run_dir?)`     | Read `report.md` from the latest (or specific) run                                                  |
-
-`run_playwright` automatically loads `apps/<app>/secrets.local.env` into the
-child process environment — no manual env wiring needed.
-
-## Prompts
-
-Prompts are orchestration instructions the client loads to guide the LLM through
-each workflow stage. They accept an `app_name` argument.
-
-| Prompt     | Stage                                              | Sub-agents loaded      |
-| ---------- | -------------------------------------------------- | ---------------------- |
-| `add-app`  | Interview the user and scaffold a new app          | —                      |
-| `discover` | Guide the user through crawling the deployed app   | `understanding`        |
-| `design`   | Guide the user through generating Playwright specs | `test-designer`        |
-| `test-app` | Run the suite, diagnose failures, read the report  | `executor`, `reporter` |
-
-> `discover` and `design` require browser automation (Playwright MCP) and
-> LLM-driven sub-agents that only exist in Claude Code. Those prompts guide the
-> user to run `/discover` and `/design` in Claude Code, then return here to
-> read results via `read_app_model` / `read_report`.
 
 ## Publishing to npm
 
