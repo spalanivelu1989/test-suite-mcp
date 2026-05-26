@@ -27,9 +27,9 @@ function loadAgent(name) {
 }
 const PROMPT_AGENTS = {
     "add-app": [],
-    discover: ["understanding"],
-    design: ["test-designer"],
-    "test-app": ["executor", "reporter"],
+    discover: ["understanding", "playwright-test-planner"],
+    design: ["test-designer", "playwright-test-generator"],
+    "test-app": ["executor", "playwright-test-healer", "reporter"],
 };
 const server = new Server({ name: "browser-tester", version: "0.1.0" }, { capabilities: { tools: {}, prompts: {} } });
 // ─── Tools ────────────────────────────────────────────────────────────────────

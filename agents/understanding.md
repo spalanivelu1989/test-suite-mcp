@@ -128,7 +128,7 @@ apps/<app>/runs/<timestamp>/
 
 ## Constraints
 
-- Do not write outside `runs/<app>-<ts>/` and (only if the orchestrator explicitly asks) the `auth.flow` field of `apps/<app>/config.yaml`.
+- Always update `apps/<app>/config.yaml` with the detected `auth.flow`. Also write `auth.xsuaa_tenant_host` (the exact hostname of the XSUAA redirect, e.g. `tarentobtp.authentication.eu10.hana.ondemand.com`) when flow is `xsuaa`, and `auth.login_button` / `auth.idp_link` label text as observed in the UI — these are read by `lib/auth.ts` at test runtime. Do not write anything else outside `apps/<app>/runs/<timestamp>/` and `apps/<app>/.auth/`.
 - Never log credential values to artifacts; reference env var names only.
 - Be honest about gaps: if a page failed to load, record it with the error. Don't silently drop pages.
 - Don't run logins concurrently for multiple roles in the same browser context. Use isolated contexts.

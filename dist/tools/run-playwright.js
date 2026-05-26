@@ -2,7 +2,7 @@ import { execSync } from "child_process";
 import { mkdirSync, existsSync, cpSync, rmSync, readFileSync } from "fs";
 import { join } from "path";
 import { config as loadDotenv } from "dotenv";
-import { PROJECT_ROOT, appRunsDir, appTestsDir, appsDir } from "../lib/paths.js";
+import { PROJECT_ROOT, appRunsDir, appTestsDir, appsDir, } from "../lib/paths.js";
 export function runPlaywright(app, category) {
     // Load app secrets into the child process environment
     const secretsFile = join(appsDir(), app, "secrets.local.env");
@@ -21,7 +21,7 @@ export function runPlaywright(app, category) {
     const runDir = join(appRunsDir(app), ts);
     mkdirSync(runDir, { recursive: true });
     try {
-        execSync(`npx playwright test ${testPath} --reporter=list,json,html`, {
+        execSync(`npx playwright test ${testPath}`, {
             cwd: PROJECT_ROOT,
             env: childEnv,
             // 10-minute ceiling; individual test timeouts are set in playwright.config.ts

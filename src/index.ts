@@ -42,9 +42,9 @@ function loadAgent(name: string): string | null {
 
 const PROMPT_AGENTS: Record<string, string[]> = {
   "add-app": [],
-  discover: ["understanding"],
-  design: ["test-designer"],
-  "test-app": ["executor", "reporter"],
+  discover: ["understanding", "playwright-test-planner"],
+  design: ["test-designer", "playwright-test-generator"],
+  "test-app": ["executor", "playwright-test-healer", "reporter"],
 };
 
 const server = new Server(
