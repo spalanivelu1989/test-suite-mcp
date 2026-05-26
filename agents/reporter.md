@@ -168,16 +168,196 @@ zero-width marks above are only to keep this template readable).
 
 ### report.html
 
-A single self-contained HTML file rendering the same content. Requirements:
+A single self-contained HTML file rendering the same content. It MUST follow the exact
+structure, card layout, and styling of the template below — only the content inside each
+card changes per run. Do not invent a different layout, different CSS, or different section
+ordering. Keep the inline `<style>` block verbatim (it is readable on plain `file://`), and
+keep the section order: header → hero (success rate) → Summary → Migration Risk Findings →
+What Passed → What Needs Attention → Where to Improve → Fix Prompts → Healed During Run →
+Technical Appendix.
 
-- Inline `<style>` (no external CSS). Readable on plain `file://`.
-- Show the **Success rate** prominently near the top (e.g. a large percentage with the passed/total fraction beneath it).
-- Main sections (Migration Risk, What Passed, What Needs Attention, Where to Improve, Fix Prompts) use plain English — no stack traces visible by default.
-- Render each Fix Prompt inside a `<pre>` block styled for easy selection/copy (monospace, bordered, full prompt text selectable as one unit). Optionally add a "Copy" button using a tiny inline `onclick` snippet — but the prompt must be fully copy-pasteable even with JS disabled.
-- Each failure renders the failure screenshot inline via a relative `<img src="...">`.
-- Technical Appendix content (raw error, file path, trace link) is inside a `<details>` block, collapsed by default.
-- Link, don't embed, videos and traces.
-- No JS framework (a single inline `onclick` for copy buttons is allowed; nothing more).
+General requirements (must hold within this template):
+
+- Inline `<style>` only — no external CSS. The `<style>` block below is the canonical one; reuse it as-is.
+- The hero card shows the **Success rate** as a large percentage with a one-line verdict and a short sub-line beneath it.
+- Summary is a two-column table; Passed/Failed/Skipped counts render as colored pills (`.pill.pass`, `.pill.fail`, `.pill.skip`).
+- Main sections use plain English — no stack traces, file paths, or line numbers visible by default.
+- "What Passed" is grouped by category, each category an `<h3>` with the count in parentheses and a `<ul>` of one-line, user-terms capabilities.
+- Callouts: use `.good` (green) for "nothing wrong here" states, `.note` (blue) for neutral notes, and `blockquote` for optional/suggested prompts.
+- Render each real Fix Prompt inside a `<pre>` block styled for easy selection/copy (monospace, bordered, full prompt text selectable as one unit). A tiny inline `onclick` Copy button is allowed, but the prompt must be fully copy-pasteable even with JS disabled.
+- Each failure renders its failure screenshot inline via a relative `<img src="...">`.
+- The Technical Appendix lives inside a single `<details>` block, collapsed by default.
+- Link, don't embed, videos and traces. Use relative paths so the run dir is portable.
+- No JS framework (a single inline `onclick` for copy buttons is the only JS allowed).
+
+Canonical template (replace the bracketed content; keep the `<style>` and card scaffolding):
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>[App] — Test Run Report</title>
+<style>
+  :root { color-scheme: light dark; }
+  * { box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.6;
+    color: #1f2329;
+    background: #f6f8fa;
+    margin: 0;
+    padding: 2rem 1rem;
+  }
+  .wrap { max-width: 880px; margin: 0 auto; }
+  .card {
+    background: #fff;
+    border: 1px solid #e1e4e8;
+    border-radius: 10px;
+    padding: 1.5rem 1.75rem;
+    margin-bottom: 1.25rem;
+  }
+  h1 { font-size: 1.75rem; margin: 0 0 .25rem; }
+  h2 { font-size: 1.25rem; margin: 0 0 .75rem; border-bottom: 1px solid #eaecef; padding-bottom: .4rem; }
+  .meta { color: #57606a; font-size: .9rem; margin: 0 0 .25rem; }
+  .meta code { background: #f0f2f4; padding: .1rem .35rem; border-radius: 4px; }
+  .intro { color: #3a4047; }
+  .hero {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    background: linear-gradient(135deg, #1f6feb 0%, #388bfd 100%);
+    color: #fff;
+    border: none;
+  }
+  .rate {
+    font-size: 3.25rem;
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -1px;
+  }
+  .hero .verdict { font-size: 1rem; opacity: .96; }
+  .hero .sub { font-size: .85rem; opacity: .85; margin-top: .25rem; }
+  table { width: 100%; border-collapse: collapse; font-size: .95rem; }
+  th, td { text-align: left; padding: .5rem .6rem; border-bottom: 1px solid #eaecef; }
+  th { color: #57606a; font-weight: 600; width: 40%; }
+  .pill { display: inline-block; padding: .1rem .55rem; border-radius: 999px; font-size: .8rem; font-weight: 600; }
+  .pill.pass { background: #dafbe1; color: #1a7f37; }
+  .pill.fail { background: #ffebe9; color: #cf222e; }
+  .pill.skip { background: #fff4d6; color: #9a6700; }
+  h3 { font-size: 1rem; margin: 1rem 0 .35rem; color: #24292f; }
+  ul { margin: .35rem 0 .75rem; padding-left: 1.25rem; }
+  li { margin: .2rem 0; }
+  code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: .88em; }
+  pre { background: #f6f8fa; border: 1px solid #d0d7de; border-radius: 6px; padding: .9rem 1rem; overflow-x: auto; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: .85rem; white-space: pre-wrap; }
+  .note { background: #f0f6ff; border-left: 4px solid #388bfd; padding: .6rem .9rem; border-radius: 0 6px 6px 0; margin: .6rem 0; }
+  .good { background: #f0fbf3; border-left: 4px solid #2da44e; padding: .6rem .9rem; border-radius: 0 6px 6px 0; }
+  blockquote { margin: .6rem 0; padding: .6rem .9rem; background: #fafbfc; border-left: 4px solid #d0d7de; border-radius: 0 6px 6px 0; color: #3a4047; }
+  ol { padding-left: 1.3rem; }
+  ol li { margin: .4rem 0; }
+  details { background: #fff; }
+  summary { cursor: pointer; font-weight: 600; font-size: 1.1rem; padding: .25rem 0; }
+  details ul { font-size: .9rem; }
+  .appendix-cat { margin-top: .9rem; }
+  img.shot { max-width: 100%; border: 1px solid #d0d7de; border-radius: 6px; margin: .5rem 0; }
+  a { color: #0969da; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="card">
+    <h1>[App] — Test Run Report</h1>
+    <p class="meta">Run path: <code>[run_dir]</code></p>
+    <p class="meta">Generated: [ISO date]</p>
+    <p class="intro">[One short plain-English paragraph describing what the app is and what this report covers.]</p>
+  </div>
+
+  <div class="card hero">
+    <div class="rate">[NN]%</div>
+    <div>
+      <div class="verdict">[One-sentence verdict, e.g. "19 of 20 tests passed; no outstanding failures."]</div>
+      <div class="sub">[Short caveat or note, e.g. about skipped tests.]</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Summary</h2>
+    <table>
+      <tr><th>Total tests</th><td>[total]</td></tr>
+      <tr><th>Passed</th><td><span class="pill pass">[passed]</span></td></tr>
+      <tr><th>Failed</th><td><span class="pill fail">[failed]</span></td></tr>
+      <tr><th>Skipped</th><td><span class="pill skip">[skipped]</span></td></tr>
+      <tr><th>Success rate</th><td>[NN]%</td></tr>
+      <tr><th>Duration</th><td>[human-readable]</td></tr>
+    </table>
+    <p>Verdict: [same verdict sentence as the hero].</p>
+  </div>
+
+  <div class="card">
+    <h2>Migration Risk Findings</h2>
+    <!-- If none: <div class="good">There are no outstanding migration-risk failures.</div> -->
+    <!-- Else: a short plain-English paragraph per finding (what was tested, what broke, user impact, suggested action). -->
+  </div>
+
+  <div class="card">
+    <h2>What Passed</h2>
+    <h3>[Category] ([count])</h3>
+    <ul>
+      <li>[One-line, user-terms capability confirmed working.]</li>
+    </ul>
+    <!-- Repeat an <h3> + <ul> block per category. -->
+  </div>
+
+  <div class="card">
+    <h2>What Needs Attention</h2>
+    <!-- If none: <div class="good">Nothing. There are no outstanding failures.</div> -->
+    <!-- Else, per failure: a bolded plain-English title, then bullets for What was being tested,
+         What the user would have experienced, Where it failed, Why it failed, Suggested next step.
+         Inline the failure screenshot with <img class="shot" src="[relative path]">. -->
+  </div>
+
+  <div class="card">
+    <h2>Where to Improve</h2>
+    <p>These are observations and suggestions, not failures:</p>
+    <ul>
+      <li>[Non-fatal signal: console errors on passing tests, slow pages, suspicious responses, coverage gaps.]</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>Fix Prompts</h2>
+    <!-- If none: <div class="good">No remediation is required.</div> -->
+    <!-- Else, one <pre> per remediation prompt (App code fixes / Test fixes / Infra & config),
+         each fully copy-pasteable. Optional inline-onclick Copy button. -->
+  </div>
+
+  <!-- Healed During Run — include only if the healer fixed anything. -->
+  <div class="card">
+    <h2>Healed During Run</h2>
+    <p>[One sentence on how many tests failed first, were repaired, and now pass.]</p>
+    <ol>
+      <li><strong>[Category — title]:</strong> [what the healer corrected, plain English].</li>
+    </ol>
+  </div>
+
+  <div class="card">
+    <details>
+      <summary>Technical Appendix</summary>
+      <p>Spec files by category (paths relative to the repository root):</p>
+      <div class="appendix-cat">
+        <h3>[Category]</h3>
+        <ul><li><code>[relative spec path]</code></li></ul>
+      </div>
+      <!-- For each failure (including fixme): Test ID, File, raw Error, relative Trace/Screenshot/Video links. -->
+    </details>
+  </div>
+
+</div>
+</body>
+</html>
+```
 
 ## Constraints
 
