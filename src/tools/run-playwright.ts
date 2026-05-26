@@ -148,7 +148,7 @@ export function runPlaywright(
 // Symlink each into <workspace>/node_modules so Node resolves them to the
 // same instance the Playwright runner itself uses, preventing the
 // "Requiring @playwright/test second time" error.
-const WORKSPACE_DEPS = ["@playwright/test", "js-yaml"];
+const WORKSPACE_DEPS = ["@playwright/test", "js-yaml", "dotenv"];
 
 function ensureWorkspaceSymlinks(workspaceRoot: string): void {
   for (const pkg of WORKSPACE_DEPS) {
