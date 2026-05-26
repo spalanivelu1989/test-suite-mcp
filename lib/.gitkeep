@@ -1,4 +1,0 @@
-# Intentionally empty. See CLAUDE.md rule 4.
-# Helpers (lib/auth.ts, lib/crawler.ts, lib/btp-selectors.ts, lib/fixtures.ts) are
-# written AFTER /discover has observed a real app's auth flow and DOM. Pre-writing
-# them produces speculative code that rarely fits the real app.

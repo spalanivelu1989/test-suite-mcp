@@ -1,0 +1,994 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: amudham/tests/generated/live/flows/full-checkout-flow-no-payment.spec.ts >> Full checkout flow (no payment) @flows @amudham >> user adds a product and completes checkout steps up to the payment page without paying
+- Location: ../../Desktop/amudham/tests/generated/live/flows/full-checkout-flow-no-payment.spec.ts:5:7
+
+# Error details
+
+```
+Test timeout of 60000ms exceeded.
+```
+
+```
+Error: locator.click: Target page, context or browser has been closed
+Call log:
+  - waiting for locator('#products').locator('article, [class*="card"], [class*="product"]').filter({ hasText: 'Peanuts' }).first().getByRole('button', { name: 'Add' })
+
+```
+
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - navigation [ref=e3]:
+      - link "Amudham Amudham Naturals Logo Naturals" [ref=e4] [cursor=pointer]:
+        - /url: /
+        - generic [ref=e5]:
+          - generic [ref=e6]: Amudham
+          - img "Amudham Naturals Logo" [ref=e8]
+          - generic [ref=e9]: Naturals
+      - list [ref=e10]:
+        - listitem [ref=e11]:
+          - link "Home" [ref=e12] [cursor=pointer]:
+            - /url: /#home
+        - listitem [ref=e13]:
+          - link "Products" [ref=e14] [cursor=pointer]:
+            - /url: /#products
+        - listitem [ref=e15]:
+          - link "Our Process" [ref=e16] [cursor=pointer]:
+            - /url: /#process
+        - listitem [ref=e17]:
+          - link "About" [ref=e18] [cursor=pointer]:
+            - /url: /#about
+        - listitem [ref=e19]:
+          - link "Contact" [ref=e20] [cursor=pointer]:
+            - /url: /#contact
+        - listitem [ref=e21]:
+          - link "Amazon Store" [ref=e22] [cursor=pointer]:
+            - /url: https://www.amazon.in/stores/page/5B29183F-F8E0-4735-A37D-1528412A1F07
+        - listitem [ref=e23]:
+          - button "Cart (0)" [ref=e24]:
+            - img [ref=e25]
+            - generic [ref=e29]: Cart (0)
+  - main [ref=e30]:
+    - generic [ref=e31]:
+      - generic [ref=e32]:
+        - img "Amudham Naturals Banner" [ref=e34]
+        - generic [ref=e39]:
+          - generic [ref=e41]:
+            - generic [ref=e45]:
+              - generic [ref=e46]:
+                - img "black-rice-porridge-mix0" [ref=e48]
+                - img "roasted-salted-peanuts1" [ref=e50]
+                - img "Cashew" [ref=e52]
+                - img "dhal-powder" [ref=e54]
+                - img "chilli" [ref=e56]
+                - img "corn-flour" [ref=e58]
+                - img "green-tea" [ref=e60]
+                - img "jaggery-powder-new" [ref=e62]
+                - img "jowar-atta" [ref=e64]
+                - img "kambu-dosa-mix" [ref=e66]
+                - img "Karupu-Kavuni" [ref=e68]
+                - img "mapillai-samba-rice" [ref=e70]
+                - img "multi-grain-atta" [ref=e72]
+                - img "pesarattu-mix" [ref=e74]
+                - img "ragi-flour" [ref=e76]
+                - img "ragi-dosa-mix" [ref=e78]
+                - img "raw-peanut" [ref=e80]
+                - img "roasted-unsalted-peanuts" [ref=e82]
+                - img "sprouted-ragi-flour" [ref=e84]
+                - img "wheat-flour" [ref=e86]
+                - img "white-rice-flour" [ref=e88]
+              - generic [ref=e89]:
+                - img "black-rice-porridge-mix0" [ref=e91]
+                - img "roasted-salted-peanuts1" [ref=e93]
+                - img "Cashew" [ref=e95]
+                - img "dhal-powder" [ref=e97]
+                - img "chilli" [ref=e99]
+                - img "corn-flour" [ref=e101]
+                - img "green-tea" [ref=e103]
+                - img "jaggery-powder-new" [ref=e105]
+                - img "jowar-atta" [ref=e107]
+                - img "kambu-dosa-mix" [ref=e109]
+                - img "Karupu-Kavuni" [ref=e111]
+                - img "mapillai-samba-rice" [ref=e113]
+                - img "multi-grain-atta" [ref=e115]
+                - img "pesarattu-mix" [ref=e117]
+                - img "ragi-flour" [ref=e119]
+                - img "ragi-dosa-mix" [ref=e121]
+                - img "raw-peanut" [ref=e123]
+                - img "roasted-unsalted-peanuts" [ref=e125]
+                - img "sprouted-ragi-flour" [ref=e127]
+                - img "wheat-flour" [ref=e129]
+                - img "white-rice-flour" [ref=e131]
+            - generic [ref=e132]:
+              - img [ref=e134]
+              - generic [ref=e137]:
+                - paragraph [ref=e138]: Naturally Grown
+                - paragraph [ref=e139]: 100% Chemical Free
+          - generic [ref=e140]:
+            - heading "Nature’s Finest Natural Foods" [level=1] [ref=e141]:
+              - generic [ref=e142]:
+                - text: Nature’s Finest Natural Foods
+                - img [ref=e143]
+            - generic [ref=e145]:
+              - paragraph [ref=e146]: Food has a unique way of bringing people together—whether friends meeting for a casual meal or families gathering to celebrate special moments. At Amudham Naturals, we believe food is more than just nourishment; it is a source of happiness, connection, and well-being.
+              - paragraph [ref=e147]: We believe it is possible to feel both happy and healthy by enjoying food that is delicious, nutritious, and thoughtfully prepared. What we eat influences how we feel, both physically and mentally. By choosing minimally processed foods made with wholesome ingredients, we support our body’s natural need for energy and balance, helping us feel our best every day.
+              - paragraph [ref=e148]: That is why we take extra care in everything we make. At Amudham Naturals, our products are more than food—they are meant to gently enrich your life, supporting a healthier body, a happier mind, and a better way of living.
+            - generic [ref=e149]:
+              - link "Start Shopping" [ref=e150] [cursor=pointer]:
+                - /url: "#products"
+                - text: Start Shopping
+                - img [ref=e151]
+              - link "Our Story" [ref=e153] [cursor=pointer]:
+                - /url: "#about"
+      - generic [ref=e155]:
+        - generic [ref=e156]:
+          - heading "Our Wholesome Products" [level=2] [ref=e157]
+          - paragraph [ref=e158]: Experience the purest essence of nature with our carefully curated selection of organic, nutritious, and high-quality staples for your healthy kitchen.
+        - generic [ref=e159]:
+          - button "All Products" [ref=e160]
+          - button "Nuts & Seeds" [ref=e161]
+          - button "Grains & Rice" [ref=e162]
+          - button "Flours" [ref=e163]
+          - button "Natural Sweeteners" [ref=e164]
+          - button "Spices" [ref=e165]
+        - generic [ref=e166]:
+          - generic [ref=e167]:
+            - generic [ref=e168] [cursor=pointer]:
+              - img "Premium Cashew முந்திரிப்பருப்பு" [ref=e169]
+              - generic [ref=e170]: nuts
+            - generic [ref=e171]:
+              - generic [ref=e172] [cursor=pointer]:
+                - heading "Premium Cashew முந்திரிப்பருப்பு" [level=3] [ref=e173]:
+                  - text: Premium Cashew
+                  - text: முந்திரிப்பருப்பு
+                - paragraph [ref=e174]: Cashews are rich in healthy fats, protein, magnesium, and zinc. They can support heart health and provide nutrients important for bones, brain, and skin as part of a balanced diet.
+              - generic [ref=e175]:
+                - generic [ref=e176]: protein
+                - generic [ref=e177]: healthy fats
+              - generic [ref=e178]:
+                - generic [ref=e179]:
+                  - button "1kg" [ref=e180]
+                  - button "500g" [ref=e181]
+                - generic [ref=e182]:
+                  - generic [ref=e183]:
+                    - generic [ref=e184]: ₹1199.00
+                    - generic [ref=e185]: Inc. GST (5%)
+                  - button "Add" [ref=e186]:
+                    - img [ref=e187]
+                    - generic [ref=e191]: Add
+          - generic [ref=e192]:
+            - generic [ref=e193] [cursor=pointer]:
+              - img "Peanuts நிலக்கடலை" [ref=e194]
+              - generic [ref=e195]: nuts
+            - generic [ref=e196]:
+              - generic [ref=e197] [cursor=pointer]:
+                - heading "Peanuts நிலக்கடலை" [level=3] [ref=e198]:
+                  - text: Peanuts
+                  - text: நிலக்கடலை
+                - paragraph [ref=e199]: Peanuts are a protein-rich legume with healthy fats, fiber, and essential vitamins. They can support heart health, provide energy, and contribute to muscle maintenance as part of a balanced diet.
+              - generic [ref=e200]:
+                - generic [ref=e201]: protein
+                - generic [ref=e202]: healthy fats
+              - generic [ref=e203]:
+                - button "1kg" [ref=e205]
+                - generic [ref=e206]:
+                  - generic [ref=e207]:
+                    - generic [ref=e208]: ₹280.00
+                    - generic [ref=e209]: Inc. GST (5%)
+                  - button "Add" [ref=e210]:
+                    - img [ref=e211]
+                    - generic [ref=e215]: Add
+          - generic [ref=e216]:
+            - generic [ref=e217] [cursor=pointer]:
+              - img "Roasted Unsalted Peanuts வறுத்த உப்பு இல்லாத கடலை" [ref=e218]
+              - generic [ref=e219]: nuts
+            - generic [ref=e220]:
+              - generic [ref=e221] [cursor=pointer]:
+                - heading "Roasted Unsalted Peanuts வறுத்த உப்பு இல்லாத கடலை" [level=3] [ref=e222]:
+                  - text: Roasted Unsalted Peanuts
+                  - text: வறுத்த உப்பு இல்லாத கடலை
+                - paragraph [ref=e223]: Perfectly roasted peanuts without any added salt. A wholesome, protein-rich snack that's great for a natural energy boost and heart-healthy diets.
+              - generic [ref=e224]:
+                - generic [ref=e225]: protein
+                - generic [ref=e226]: healthy fats
+              - generic [ref=e227]:
+                - button "350g" [ref=e229]
+                - generic [ref=e230]:
+                  - generic [ref=e231]:
+                    - generic [ref=e232]: ₹189.00
+                    - generic [ref=e233]: Inc. GST (5%)
+                  - button "Add" [ref=e234]:
+                    - img [ref=e235]
+                    - generic [ref=e239]: Add
+          - generic [ref=e240]:
+            - generic [ref=e241] [cursor=pointer]:
+              - img "Roasted Salted Peanuts வறுத்த உப்பு கடலை" [ref=e242]
+              - generic [ref=e243]: nuts
+            - generic [ref=e244]:
+              - generic [ref=e245] [cursor=pointer]:
+                - heading "Roasted Salted Peanuts வறுத்த உப்பு கடலை" [level=3] [ref=e246]:
+                  - text: Roasted Salted Peanuts
+                  - text: வறுத்த உப்பு கடலை
+                - paragraph [ref=e247]: Crunchy, perfectly roasted peanuts seasoned with salt. A classic, protein-packed snack that offers a delicious balance of flavor and energy.
+              - generic [ref=e248]:
+                - generic [ref=e249]: protein
+                - generic [ref=e250]: healthy fats
+              - generic [ref=e251]:
+                - button "350g" [ref=e253]
+                - generic [ref=e254]:
+                  - generic [ref=e255]:
+                    - generic [ref=e256]: ₹189.00
+                    - generic [ref=e257]: Inc. GST (5%)
+                  - button "Add" [ref=e258]:
+                    - img [ref=e259]
+                    - generic [ref=e263]: Add
+          - generic [ref=e264]:
+            - generic [ref=e265] [cursor=pointer]:
+              - img "Jaggery Powder நாட்டு சக்கரை" [ref=e266]
+              - generic [ref=e267]: sweeteners
+            - generic [ref=e268]:
+              - generic [ref=e269] [cursor=pointer]:
+                - heading "Jaggery Powder நாட்டு சக்கரை" [level=3] [ref=e270]:
+                  - text: Jaggery Powder
+                  - text: நாட்டு சக்கரை
+                - paragraph [ref=e271]: Jaggery powder is a natural sweetener containing iron, minerals, and some antioxidants. It is less processed than refined sugar and provides trace nutrients, but should be consumed in moderation.
+              - generic [ref=e272]:
+                - generic [ref=e273]: iron
+                - generic [ref=e274]: minerals
+              - generic [ref=e275]:
+                - button "1kg" [ref=e277]
+                - generic [ref=e278]:
+                  - generic [ref=e279]:
+                    - generic [ref=e280]: ₹210.00
+                    - generic [ref=e281]: Inc. GST (5%)
+                  - button "Add" [ref=e282]:
+                    - img [ref=e283]
+                    - generic [ref=e287]: Add
+          - generic [ref=e288]:
+            - generic [ref=e289] [cursor=pointer]:
+              - img "Dhal Powder பருப்பு பொடி" [ref=e290]
+              - generic [ref=e291]: flours
+            - generic [ref=e292]:
+              - generic [ref=e293] [cursor=pointer]:
+                - heading "Dhal Powder பருப்பு பொடி" [level=3] [ref=e294]:
+                  - text: Dhal Powder
+                  - text: பருப்பு பொடி
+                - paragraph [ref=e295]: Amudham Naturals Dhal Powder, also known as Paruppu Podi, is a traditional spiced blend perfect for idly, dosa, and rice mixes. This aromatic seasoning combines roasted lentils with spices, offering authentic South Indian flavor and nutritional benefits with no added preservatives.
+              - generic [ref=e296]:
+                - generic [ref=e297]: protein
+                - generic [ref=e298]: fiber
+              - generic [ref=e299]:
+                - button "250g" [ref=e301]
+                - generic [ref=e302]:
+                  - generic [ref=e303]:
+                    - generic [ref=e304]: ₹189.00
+                    - generic [ref=e305]: Inc. GST (5%)
+                  - button "Add" [ref=e306]:
+                    - img [ref=e307]
+                    - generic [ref=e311]: Add
+          - generic [ref=e312]:
+            - generic [ref=e313] [cursor=pointer]:
+              - img "Black Rice Porridge Mix கருப்பு கவுனி கஞ்சி மிக்ஸ்" [ref=e314]
+              - generic [ref=e315]: flours
+            - generic [ref=e316]:
+              - generic [ref=e317] [cursor=pointer]:
+                - heading "Black Rice Porridge Mix கருப்பு கவுனி கஞ்சி மிக்ஸ்" [level=3] [ref=e318]:
+                  - text: Black Rice Porridge Mix
+                  - text: கருப்பு கவுனி கஞ்சி மிக்ஸ்
+                - paragraph [ref=e319]: A convenient and nutritious porridge mix made from antioxidant-rich Karuppu Kavuni black rice. Perfect for a quick, healthy breakfast that supports digestion and provides sustained energy.
+              - generic [ref=e320]:
+                - generic [ref=e321]: antioxidants
+                - generic [ref=e322]: fiber
+              - generic [ref=e323]:
+                - generic [ref=e324]:
+                  - button "350g" [ref=e325]
+                  - button "250g" [ref=e326]
+                - generic [ref=e327]:
+                  - generic [ref=e328]:
+                    - generic [ref=e329]: ₹249.00
+                    - generic [ref=e330]: Inc. GST (5%)
+                  - button "Add" [ref=e331]:
+                    - img [ref=e332]
+                    - generic [ref=e336]: Add
+          - generic [ref=e337]:
+            - generic [ref=e338] [cursor=pointer]:
+              - img "Sprouted Ragi Flour முளைகட்டிய கேழ்வரகு மாவு" [ref=e339]
+              - generic [ref=e340]: flours
+            - generic [ref=e341]:
+              - generic [ref=e342] [cursor=pointer]:
+                - heading "Sprouted Ragi Flour முளைகட்டிய கேழ்வரகு மாவு" [level=3] [ref=e343]:
+                  - text: Sprouted Ragi Flour
+                  - text: முளைகட்டிய கேழ்வரகு மாவு
+                - paragraph [ref=e344]: Made from sprouted ragi (finger millet), this flour is easier to digest and has increased nutritional value. The sprouting process enhances the bioavailability of calcium, iron, and other minerals, making it an excellent choice for all age groups, especially children.
+              - generic [ref=e345]:
+                - generic [ref=e346]: calcium
+                - generic [ref=e347]: iron
+              - generic [ref=e348]:
+                - generic [ref=e349]:
+                  - button "1kg" [ref=e350]
+                  - button "500g" [ref=e351]
+                - generic [ref=e352]:
+                  - generic [ref=e353]:
+                    - generic [ref=e354]: ₹299.00
+                    - generic [ref=e355]: Inc. GST (5%)
+                  - button "Add" [ref=e356]:
+                    - img [ref=e357]
+                    - generic [ref=e361]: Add
+          - generic [ref=e362]:
+            - generic [ref=e363] [cursor=pointer]:
+              - img "Ragi Flour கேழ்வரகு மாவு" [ref=e364]
+              - generic [ref=e365]: flours
+            - generic [ref=e366]:
+              - generic [ref=e367] [cursor=pointer]:
+                - heading "Ragi Flour கேழ்வரகு மாவு" [level=3] [ref=e368]:
+                  - text: Ragi Flour
+                  - text: கேழ்வரகு மாவு
+                - paragraph [ref=e369]: Ragi Flour, made from ground Ragi Millet, is a highly nutritious, gluten-free flour. It's an excellent source of calcium and iron, perfect for making rotis, dosas, and porridge.
+              - generic [ref=e370]:
+                - generic [ref=e371]: calcium
+                - generic [ref=e372]: iron
+              - generic [ref=e373]:
+                - button "1kg" [ref=e375]
+                - generic [ref=e376]:
+                  - generic [ref=e377]:
+                    - generic [ref=e378]: ₹239.00
+                    - generic [ref=e379]: Inc. GST (5%)
+                  - button "Add" [ref=e380]:
+                    - img [ref=e381]
+                    - generic [ref=e385]: Add
+          - generic [ref=e386]:
+            - generic [ref=e387] [cursor=pointer]:
+              - img "Ragi Millet Dosa Mix கேழ்வரகு இட்லி தோசை மாவு" [ref=e388]
+              - generic [ref=e389]: flours
+            - generic [ref=e390]:
+              - generic [ref=e391] [cursor=pointer]:
+                - heading "Ragi Millet Dosa Mix கேழ்வரகு இட்லி தோசை மாவு" [level=3] [ref=e392]:
+                  - text: Ragi Millet Dosa Mix
+                  - text: கேழ்வரகு இட்லி தோசை மாவு
+                - paragraph [ref=e393]: Amudham Naturals Ragi Millet Dosa Mix is a nutritious blend of Indian finger millet. Gluten-free and made with no added preservatives, it's perfect for preparing healthy dosas and idlies. Rich in calcium and fiber, this traditional mix supports bone health and digestion.
+              - generic [ref=e394]:
+                - generic [ref=e395]: calcium
+                - generic [ref=e396]: fiber
+              - generic [ref=e397]:
+                - button "500g" [ref=e399]
+                - generic [ref=e400]:
+                  - generic [ref=e401]:
+                    - generic [ref=e402]: ₹210.00
+                    - generic [ref=e403]: Inc. GST (5%)
+                  - button "Add" [ref=e404]:
+                    - img [ref=e405]
+                    - generic [ref=e409]: Add
+          - generic [ref=e410]:
+            - generic [ref=e411] [cursor=pointer]:
+              - img "Wheat Flour கோதுமை மாவு" [ref=e412]
+              - generic [ref=e413]: flours
+            - generic [ref=e414]:
+              - generic [ref=e415] [cursor=pointer]:
+                - heading "Wheat Flour கோதுமை மாவு" [level=3] [ref=e416]:
+                  - text: Wheat Flour
+                  - text: கோதுமை மாவு
+                - paragraph [ref=e417]: Premium quality wheat flour, ground from selected wheat grains. Perfect for soft rotis, chapatis, and other traditional Indian breads.
+              - generic [ref=e418]:
+                - generic [ref=e419]: carbohydrates
+                - generic [ref=e420]: fiber
+              - generic [ref=e421]:
+                - button "1kg" [ref=e423]
+                - generic [ref=e424]:
+                  - generic [ref=e425]:
+                    - generic [ref=e426]: ₹229.00
+                    - generic [ref=e427]: Inc. GST (5%)
+                  - button "Add" [ref=e428]:
+                    - img [ref=e429]
+                    - generic [ref=e433]: Add
+          - generic [ref=e434]:
+            - generic [ref=e435] [cursor=pointer]:
+              - img "Golden Maize Corn Flour சோள மாவு" [ref=e436]
+              - generic [ref=e437]: flours
+            - generic [ref=e438]:
+              - generic [ref=e439] [cursor=pointer]:
+                - heading "Golden Maize Corn Flour சோள மாவு" [level=3] [ref=e440]:
+                  - text: Golden Maize Corn Flour
+                  - text: சோள மாவு
+                - paragraph [ref=e441]: Finely ground golden maize flour, rich in antioxidants and fiber. Ideal for healthy rotis and snacks.
+              - generic [ref=e442]:
+                - generic [ref=e443]: carbohydrates
+                - generic [ref=e444]: fiber
+              - generic [ref=e445]:
+                - button "1kg" [ref=e447]
+                - generic [ref=e448]:
+                  - generic [ref=e449]:
+                    - generic [ref=e450]: ₹229.00
+                    - generic [ref=e451]: Inc. GST (5%)
+                  - button "Add" [ref=e452]:
+                    - img [ref=e453]
+                    - generic [ref=e457]: Add
+          - generic [ref=e458]:
+            - generic [ref=e459] [cursor=pointer]:
+              - img "Jowar Atta சோளம் மாவு" [ref=e460]
+              - generic [ref=e461]: flours
+            - generic [ref=e462]:
+              - generic [ref=e463] [cursor=pointer]:
+                - heading "Jowar Atta சோளம் மாவு" [level=3] [ref=e464]:
+                  - text: Jowar Atta
+                  - text: சோளம் மாவு
+                - paragraph [ref=e465]: Healthy and gluten-free sorghum flour, packed with essential nutrients and fiber.
+              - generic [ref=e466]:
+                - generic [ref=e467]: fiber
+                - generic [ref=e468]: protein
+              - generic [ref=e469]:
+                - button "1kg" [ref=e471]
+                - generic [ref=e472]:
+                  - generic [ref=e473]:
+                    - generic [ref=e474]: ₹249.00
+                    - generic [ref=e475]: Inc. GST (5%)
+                  - button "Add" [ref=e476]:
+                    - img [ref=e477]
+                    - generic [ref=e481]: Add
+          - generic [ref=e482]:
+            - generic [ref=e483] [cursor=pointer]:
+              - img "Pesarattu Dosa Mix Flour பெசரட்டு தோசை மாவு" [ref=e484]
+              - generic [ref=e485]: flours
+            - generic [ref=e486]:
+              - generic [ref=e487] [cursor=pointer]:
+                - heading "Pesarattu Dosa Mix Flour பெசரட்டு தோசை மாவு" [level=3] [ref=e488]:
+                  - text: Pesarattu Dosa Mix Flour
+                  - text: பெசரட்டு தோசை மாவு
+                - paragraph [ref=e489]: Authentic Green Gram Dosa Mix for healthy and delicious Pesarattu.
+              - generic [ref=e490]:
+                - generic [ref=e491]: protein
+                - generic [ref=e492]: fiber
+              - generic [ref=e493]:
+                - button "500g" [ref=e495]
+                - generic [ref=e496]:
+                  - generic [ref=e497]:
+                    - generic [ref=e498]: ₹259.00
+                    - generic [ref=e499]: Inc. GST (5%)
+                  - button "Add" [ref=e500]:
+                    - img [ref=e501]
+                    - generic [ref=e505]: Add
+          - generic [ref=e506]:
+            - generic [ref=e507] [cursor=pointer]:
+              - img "Kambu Dosa Mix கம்பு தோசை மாவு" [ref=e508]
+              - generic [ref=e509]: flours
+            - generic [ref=e510]:
+              - generic [ref=e511] [cursor=pointer]:
+                - heading "Kambu Dosa Mix கம்பு தோசை மாவு" [level=3] [ref=e512]:
+                  - text: Kambu Dosa Mix
+                  - text: கம்பு தோசை மாவு
+                - paragraph [ref=e513]: Nutritious Pearl Millet Dosa Mix for a healthy start to your day.
+              - generic [ref=e514]:
+                - generic [ref=e515]: fiber
+                - generic [ref=e516]: iron
+              - generic [ref=e517]:
+                - button "500g" [ref=e519]
+                - generic [ref=e520]:
+                  - generic [ref=e521]:
+                    - generic [ref=e522]: ₹239.00
+                    - generic [ref=e523]: Inc. GST (5%)
+                  - button "Add" [ref=e524]:
+                    - img [ref=e525]
+                    - generic [ref=e529]: Add
+          - generic [ref=e530]:
+            - generic [ref=e531] [cursor=pointer]:
+              - img "7-Grain Multi Grain Atta மல்டி கிரைன் ஆட்டா" [ref=e532]
+              - generic [ref=e533]: flours
+            - generic [ref=e534]:
+              - generic [ref=e535] [cursor=pointer]:
+                - heading "7-Grain Multi Grain Atta மல்டி கிரைன் ஆட்டா" [level=3] [ref=e536]:
+                  - text: 7-Grain Multi Grain Atta
+                  - text: மல்டி கிரைன் ஆட்டா
+                - paragraph [ref=e537]: A powerful blend of 7 essential grains for maximum nutrition and fiber.
+              - generic [ref=e538]:
+                - generic [ref=e539]: fiber
+                - generic [ref=e540]: protein
+              - generic [ref=e541]:
+                - button "1kg" [ref=e543]
+                - generic [ref=e544]:
+                  - generic [ref=e545]:
+                    - generic [ref=e546]: ₹269.00
+                    - generic [ref=e547]: Inc. GST (5%)
+                  - button "Add" [ref=e548]:
+                    - img [ref=e549]
+                    - generic [ref=e553]: Add
+          - generic [ref=e554]:
+            - generic [ref=e555] [cursor=pointer]:
+              - img "Pure White Rice Flour அரிசி மாவு" [ref=e556]
+              - generic [ref=e557]: flours
+            - generic [ref=e558]:
+              - generic [ref=e559] [cursor=pointer]:
+                - heading "Pure White Rice Flour அரிசி மாவு" [level=3] [ref=e560]:
+                  - text: Pure White Rice Flour
+                  - text: அரிசி மாவு
+                - paragraph [ref=e561]: Finely milled from high-quality white rice, this flour is perfect for making a variety of dishes, from crispy dosas to fluffy pancakes. Its neutral flavor and smooth texture make it a versatile choice for both sweet and savory recipes.
+              - generic [ref=e562]:
+                - generic [ref=e563]: carbohydrates
+                - generic [ref=e564]: energy
+              - generic [ref=e565]:
+                - button "1kg" [ref=e567]
+                - generic [ref=e568]:
+                  - generic [ref=e569]:
+                    - generic [ref=e570]: ₹229.00
+                    - generic [ref=e571]: Inc. GST (5%)
+                  - button "Add" [ref=e572]:
+                    - img [ref=e573]
+                    - generic [ref=e577]: Add
+          - generic [ref=e578]:
+            - generic [ref=e579] [cursor=pointer]:
+              - img "Green Tea பசுமை தேநீர்" [ref=e580]
+              - generic [ref=e581]: spices
+            - generic [ref=e582]:
+              - generic [ref=e583] [cursor=pointer]:
+                - heading "Green Tea பசுமை தேநீர்" [level=3] [ref=e584]:
+                  - text: Green Tea
+                  - text: பசுமை தேநீர்
+                - paragraph [ref=e585]: Premium quality green tea leaves, rich in antioxidants for a healthy mind and body.
+              - generic [ref=e586]:
+                - generic [ref=e587]: antioxidants
+                - generic [ref=e588]: catechins
+              - generic [ref=e589]:
+                - button "200g" [ref=e591]
+                - generic [ref=e592]:
+                  - generic [ref=e593]:
+                    - generic [ref=e594]: ₹379.00
+                    - generic [ref=e595]: Inc. GST (5%)
+                  - button "Add" [ref=e596]:
+                    - img [ref=e597]
+                    - generic [ref=e601]: Add
+          - generic [ref=e602]:
+            - generic [ref=e603] [cursor=pointer]:
+              - img "Red Chilli Powder மிளகாய் தூள்" [ref=e604]
+              - generic [ref=e605]: spices
+            - generic [ref=e606]:
+              - generic [ref=e607] [cursor=pointer]:
+                - heading "Red Chilli Powder மிளகாய் தூள்" [level=3] [ref=e608]:
+                  - text: Red Chilli Powder
+                  - text: மிளகாய் தூள்
+                - paragraph [ref=e609]: Made from premium quality dried red chillies, ground to perfection to add a vibrant color and spicy flavor to your dishes. It's a staple in Indian cooking, known for its heat and ability to enhance the taste of curries, sauces, and marinades.
+              - generic [ref=e610]:
+                - generic [ref=e611]: vitamin c
+                - generic [ref=e612]: vitamin a
+              - generic [ref=e613]:
+                - button "200g" [ref=e615]
+                - generic [ref=e616]:
+                  - generic [ref=e617]:
+                    - generic [ref=e618]: ₹100.00
+                    - generic [ref=e619]: Inc. GST (5%)
+                  - button "Add" [ref=e620]:
+                    - img [ref=e621]
+                    - generic [ref=e625]: Add
+          - generic [ref=e626]:
+            - generic [ref=e627] [cursor=pointer]:
+              - img "Black Rice Raw கருப்பு கவுனி அரிசி" [ref=e628]
+              - generic [ref=e629]: grains
+            - generic [ref=e630]:
+              - generic [ref=e631] [cursor=pointer]:
+                - heading "Black Rice Raw கருப்பு கவுனி அரிசி" [level=3] [ref=e632]:
+                  - text: Black Rice Raw
+                  - text: கருப்பு கவுனி அரிசி
+                - paragraph [ref=e633]: Black rice is rich in antioxidants, fiber, and essential minerals. It may support heart health, aid digestion, and help manage blood sugar levels as part of a healthy diet.
+              - generic [ref=e634]:
+                - generic [ref=e635]: antioxidants
+                - generic [ref=e636]: fiber
+              - generic [ref=e637]:
+                - generic [ref=e638]:
+                  - button "1kg" [ref=e639]
+                  - button "500g" [ref=e640]
+                - generic [ref=e641]:
+                  - generic [ref=e642]:
+                    - generic [ref=e643]: ₹320.00
+                    - generic [ref=e644]: Inc. GST (5%)
+                  - button "Add" [ref=e645]:
+                    - img [ref=e646]
+                    - generic [ref=e650]: Add
+          - generic [ref=e651]:
+            - generic [ref=e652] [cursor=pointer]:
+              - img "Mapillai Samba Rice மாப்பிள்ளை சம்பா அரிசி" [ref=e653]
+              - generic [ref=e654]: grains
+            - generic [ref=e655]:
+              - generic [ref=e656] [cursor=pointer]:
+                - heading "Mapillai Samba Rice மாப்பிள்ளை சம்பா அரிசி" [level=3] [ref=e657]:
+                  - text: Mapillai Samba Rice
+                  - text: மாப்பிள்ளை சம்பா அரிசி
+                - paragraph [ref=e658]: Also known as Bridegroom Rice, Mapillai Samba is a traditional red rice from Tamil Nadu. It's packed with fiber, iron, and zinc, and has a low glycemic index, making it beneficial for blood sugar control and boosting strength.
+              - generic [ref=e659]:
+                - generic [ref=e660]: fiber
+                - generic [ref=e661]: iron
+              - generic [ref=e662]:
+                - button "1kg" [ref=e664]
+                - generic [ref=e665]:
+                  - generic [ref=e666]:
+                    - generic [ref=e667]: ₹229.00
+                    - generic [ref=e668]: Inc. GST (5%)
+                  - button "Add" [ref=e669]:
+                    - img [ref=e670]
+                    - generic [ref=e674]: Add
+      - generic [ref=e676]:
+        - generic [ref=e677]:
+          - generic [ref=e679]: Our Promise
+          - heading "From Soil to Soul" [level=2] [ref=e680]
+          - paragraph [ref=e681]: Every product tells a story of dedication, care, and love for pure, wholesome food. This is our journey to your table.
+        - generic [ref=e682]:
+          - generic [ref=e685]:
+            - img [ref=e687]
+            - generic [ref=e690]:
+              - heading "From Blessed Earth" [level=3] [ref=e691]
+              - paragraph [ref=e692]: We partner with farmers who nurture the soil with love, growing crops without harsh chemicals. Every seed planted carries the promise of pure, natural goodness.
+            - generic [ref=e693]: ✓
+          - generic [ref=e696]:
+            - img [ref=e698]
+            - generic [ref=e701]:
+              - heading "Harvested with Care" [level=3] [ref=e702]
+              - paragraph [ref=e703]: At the perfect moment of ripeness, crops are harvested mindfully. Our farmers know their land intimately—every field tells a story of dedication and respect for nature.
+            - generic [ref=e704]: ✓
+          - generic [ref=e707]:
+            - img [ref=e709]
+            - generic [ref=e711]:
+              - heading "Processed with Integrity" [level=3] [ref=e712]
+              - paragraph [ref=e713]: Using traditional methods passed down through generations, we process every grain and legume to preserve its soul. Minimal processing means maximum nutrition and taste.
+            - generic [ref=e714]: ✓
+          - generic [ref=e716]:
+            - img [ref=e718]
+            - generic [ref=e721]:
+              - heading "Brought to Your Home" [level=3] [ref=e722]
+              - paragraph [ref=e723]: "Sealed with care in clean, sustainable packaging, our products journey to your kitchen. Every package carries our promise: pure food for your family's health and happiness."
+            - generic [ref=e724]: ✓
+        - generic [ref=e725]:
+          - generic [ref=e726]:
+            - heading "See It In Action" [level=3] [ref=e727]
+            - paragraph [ref=e728]: Watch how we bring our promise to life—from the farms of dedicated growers to the kitchens of families who trust us
+          - generic [ref=e730]:
+            - generic [ref=e731]:
+              - iframe [ref=e733]:
+                - generic [active] [ref=f4e1]:
+                  - generic "YouTube Video Player" [ref=f4e3]
+                  - generic [ref=f4e5]:
+                    - generic:
+                      - generic:
+                        - button "Play video" [ref=f4e10] [cursor=pointer]
+                        - button "Hide player controls" [ref=f4e12] [cursor=pointer]
+                        - generic [ref=f4e14]:
+                          - generic [ref=f4e19]:
+                            - generic [ref=f4e20]:
+                              - link "This Is What a Black Rice Plant Looks Like | Farm Walkthrough" [ref=f4e21] [cursor=pointer]:
+                                - /url: https://www.youtube.com/watch?v=GNrnqVRoA0I
+                              - link "Amudham Naturals" [ref=f4e22] [cursor=pointer]:
+                                - /url: /channel/UCFWlhU2Tyj_VDVL40wRAlVQ
+                                - generic [ref=f4e23]: Amudham Naturals
+                            - generic [ref=f4e24]:
+                              - button [ref=f4e25] [cursor=pointer]
+                              - generic [ref=f4e27]:
+                                - generic: Amudham Naturals
+                                - generic: 1 subscriber
+                          - generic [ref=f4e28]:
+                            - button "Share" [ref=f4e31] [cursor=pointer]:
+                              - generic [ref=f4e35]:
+                                - img
+                            - link "Watch on YouTube" [ref=f4e42] [cursor=pointer]:
+                              - /url: https://www.youtube.com/watch?v=GNrnqVRoA0I
+                              - generic [ref=f4e45]:
+                                - text: Watch on
+                                - img [ref=f4e47]:
+                                  - generic [ref=f4e49]:
+                                    - img
+              - generic [ref=e734]:
+                - heading "Black Rice Farm Walkthrough" [level=4] [ref=e735]
+                - paragraph [ref=e736]: Watch this farm walkthrough to see the majestic black rice plant in its natural habitat. Learn about the unique characteristics of this ancient 'forbidden rice' and how it's grown with dedication and care.
+                - paragraph [ref=e737]: "\"This Is What a Black Rice Plant Looks Like\""
+            - generic [ref=e738]:
+              - heading "Our Stories" [level=5] [ref=e739]
+              - button "1 Black Rice Farm Walkthrough This Is What a Black Rice Plant Looks Like" [ref=e740]:
+                - generic [ref=e741]:
+                  - generic [ref=e742]: "1"
+                  - generic [ref=e743]:
+                    - paragraph [ref=e744]: Black Rice Farm Walkthrough
+                    - paragraph [ref=e745]: This Is What a Black Rice Plant Looks Like
+                  - img [ref=e746]
+              - button "2 Our Agriculture Quality Packing" [ref=e748]:
+                - generic [ref=e749]:
+                  - generic [ref=e750]: "2"
+                  - generic [ref=e751]:
+                    - paragraph [ref=e752]: Our Agriculture
+                    - paragraph [ref=e753]: Quality Packing
+              - button "3 Our Rice Field Minimal Processing" [ref=e754]:
+                - generic [ref=e755]:
+                  - generic [ref=e756]: "3"
+                  - generic [ref=e757]:
+                    - paragraph [ref=e758]: Our Rice Field
+                    - paragraph [ref=e759]: Minimal Processing
+              - button "4 Rice Harvesting in Action Perfect Harvesting" [ref=e760]:
+                - generic [ref=e761]:
+                  - generic [ref=e762]: "4"
+                  - generic [ref=e763]:
+                    - paragraph [ref=e764]: Rice Harvesting in Action
+                    - paragraph [ref=e765]: Perfect Harvesting
+              - button "5 Rice Seedling Transplantation Rice Seedling Transplantation" [ref=e766]:
+                - generic [ref=e767]:
+                  - generic [ref=e768]: "5"
+                  - generic [ref=e769]:
+                    - paragraph [ref=e770]: Rice Seedling Transplantation
+                    - paragraph [ref=e771]: Rice Seedling Transplantation
+      - generic [ref=e775]:
+        - generic [ref=e776]:
+          - generic [ref=e777]: Our Mission
+          - heading "Our Food Philosophy" [level=2] [ref=e778]
+        - generic [ref=e779]:
+          - paragraph [ref=e780]: At Amudham Naturals, we are dedicated to offering exceptional value by providing superior quality products at accessible everyday prices. We believe that wholesome, natural food should be honest and available to all.
+          - generic [ref=e781]:
+            - paragraph [ref=e782]:
+              - text: Our mission is to deliver pure products crafted with integrity, transparency, and a deep-seated commitment to
+              - strong [ref=e783]: "\"real food.\""
+              - text: Every item in our selection is thoughtfully sourced from trusted partners who mirror our passion for authenticity and nutritional excellence.
+            - paragraph [ref=e784]: When you choose us, we want you to feel a genuine connection to food that is pure, authentic, and handled with care. We select each ingredient with the same diligence we would for our own families.
+          - generic [ref=e785]:
+            - paragraph [ref=e787]: "\"Wow! That was a delightful experience, and I got a fantastic deal. I look forward to coming back!\""
+            - paragraph [ref=e788]: — The Amudham Promise
+      - generic [ref=e791]:
+        - generic [ref=e792]:
+          - generic [ref=e794]: Get In Touch
+          - heading "Let's Connect" [level=2] [ref=e795]
+          - paragraph [ref=e796]: From personalized recommendations to partnership inquiries, we're here to guide your journey from soil to soul.
+        - generic [ref=e797]:
+          - generic [ref=e801]:
+            - heading "Send us a message" [level=3] [ref=e803]
+            - generic [ref=e805]:
+              - generic [ref=e806]:
+                - generic [ref=e807]:
+                  - generic [ref=e808]: Full Name
+                  - textbox "Your Name" [ref=e809]
+                - generic [ref=e810]:
+                  - generic [ref=e811]: Email
+                  - textbox "hello@example.com" [ref=e812]
+              - generic [ref=e813]:
+                - generic [ref=e814]: Subject
+                - textbox "e.g. Bulk Ordering, Partnerships" [ref=e815]
+              - generic [ref=e816]:
+                - generic [ref=e817]: Message
+                - textbox "Tell us what you're looking for..." [ref=e818]
+            - button "Send Message" [ref=e819] [cursor=pointer]:
+              - generic [ref=e820]:
+                - text: Send Message
+                - img [ref=e821]
+          - generic [ref=e827]:
+            - generic [ref=e828]:
+              - heading "Contact Information" [level=3] [ref=e829]
+              - paragraph [ref=e830]: Reach out to us directly
+            - generic [ref=e831]:
+              - generic [ref=e833]:
+                - img [ref=e835]
+                - generic [ref=e837]:
+                  - paragraph [ref=e838]: Contact Number
+                  - link "+91 9486225762" [ref=e839] [cursor=pointer]:
+                    - /url: tel:+919486225762
+                  - paragraph [ref=e840]: Mon-Sat, 9AM-7PM IST
+                - button "Copy Contact Number" [ref=e841]:
+                  - img [ref=e842]
+              - generic [ref=e846]:
+                - img [ref=e848]
+                - generic [ref=e851]:
+                  - paragraph [ref=e852]: Official Inquiries
+                  - link "amudhamnaturals@gmail.com" [ref=e853] [cursor=pointer]:
+                    - /url: mailto:amudhamnaturals@gmail.com
+                  - paragraph [ref=e854]: Response within 24 hours
+                - button "Copy Official Inquiries" [ref=e855]:
+                  - img [ref=e856]
+              - generic [ref=e860]:
+                - img [ref=e862]
+                - generic [ref=e865]:
+                  - paragraph [ref=e866]: Store Location
+                  - link "Cuddalore, TamilNadu" [ref=e867] [cursor=pointer]:
+                    - /url: https://maps.app.goo.gl/zJBAFjVTDmbavfUDA
+                  - paragraph [ref=e868]: Visit us in person
+                - button "Copy Store Location" [ref=e869]:
+                  - img [ref=e870]
+          - generic [ref=e873] [cursor=pointer]:
+            - generic [ref=e875]:
+              - generic [ref=e876]:
+                - generic [ref=e877]:
+                  - img [ref=e878]
+                  - generic [ref=e881]: Our Location
+                - heading "Visit Our Store" [level=3] [ref=e882]
+                - paragraph [ref=e883]: Gandhi Gramam, Cuddalore, TN
+              - generic [ref=e884]:
+                - generic [ref=e885]: Click to expand
+                - img [ref=e886]
+            - iframe [ref=e890]
+          - generic [ref=e893]:
+            - generic [ref=e894]:
+              - heading "Follow Our Journey" [level=3] [ref=e895]
+              - paragraph [ref=e896]: Stay connected with our daily stories and updates
+            - generic [ref=e897]:
+              - link "YouTube" [ref=e898] [cursor=pointer]:
+                - /url: https://www.youtube.com/@Amudha-1957?sub_confirmation=1
+                - img "YouTube" [ref=e899]
+              - link "Instagram" [ref=e900] [cursor=pointer]:
+                - /url: https://www.instagram.com/amudhamnaturals/
+                - img "Instagram" [ref=e901]
+              - link "LinkedIn" [ref=e902] [cursor=pointer]:
+                - /url: https://www.linkedin.com/company/amudham-naturals
+                - img "LinkedIn" [ref=e903]
+              - link "WhatsApp" [ref=e904] [cursor=pointer]:
+                - /url: https://chat.whatsapp.com/K6E89KKaTHhIpNf2xjjUP7?mode=gi_t
+                - img "WhatsApp" [ref=e905]
+          - generic [ref=e906]:
+            - img [ref=e908]
+            - generic [ref=e910]:
+              - generic [ref=e911]:
+                - generic [ref=e912]:
+                  - img [ref=e913]
+                  - generic [ref=e916]: Certified Quality
+                - heading "From Soil to Soul" [level=3] [ref=e917]
+              - generic [ref=e918]:
+                - paragraph [ref=e919]: "\"Every product is crafted with care, ensuring the highest standards of purity and nutrition for your family.\""
+                - generic [ref=e920]:
+                  - generic [ref=e921]:
+                    - paragraph [ref=e922]: FSSAI Certified
+                    - paragraph [ref=e923]: "License No: 12425004000475"
+                  - generic [ref=e924]:
+                    - paragraph [ref=e925]: GST Registered
+                    - paragraph [ref=e926]: "GSTIN: 33AFQPA9130C1ZV"
+                  - generic [ref=e927]:
+                    - paragraph [ref=e928]: Trademark Registered
+                    - paragraph [ref=e929]: "Proprietor: 7072196"
+                  - generic [ref=e930]:
+                    - paragraph [ref=e931]: UDYAM Registered
+                    - paragraph [ref=e932]: "Reg No: UDYAM-TN-04-0112184"
+  - contentinfo [ref=e933]:
+    - generic [ref=e935]:
+      - generic [ref=e936]:
+        - heading "🌿 Amudham Naturals" [level=3] [ref=e937]
+        - paragraph [ref=e938]: Premium organic products crafted with care. Pure, natural, wholesome — from soil to soul.
+        - generic [ref=e939]:
+          - link [ref=e940] [cursor=pointer]:
+            - /url: https://www.instagram.com/amudhamnaturals/
+            - img [ref=e941]
+          - link [ref=e944] [cursor=pointer]:
+            - /url: https://www.youtube.com/@Amudha-1957?sub_confirmation=1
+            - img [ref=e945]
+      - generic [ref=e948]:
+        - heading "Navigation" [level=4] [ref=e949]
+        - list [ref=e950]:
+          - listitem [ref=e951]:
+            - link "Home" [ref=e952] [cursor=pointer]:
+              - /url: /#home
+          - listitem [ref=e953]:
+            - link "Products" [ref=e954] [cursor=pointer]:
+              - /url: /#products
+          - listitem [ref=e955]:
+            - link "Our Process" [ref=e956] [cursor=pointer]:
+              - /url: /#ourprocess
+          - listitem [ref=e957]:
+            - link "About" [ref=e958] [cursor=pointer]:
+              - /url: /#about
+          - listitem [ref=e959]:
+            - link "Contact" [ref=e960] [cursor=pointer]:
+              - /url: /#contact
+      - generic [ref=e961]:
+        - heading "Legal" [level=4] [ref=e962]
+        - list [ref=e963]:
+          - listitem [ref=e964]:
+            - link "Privacy Policy" [ref=e965] [cursor=pointer]:
+              - /url: /privacy-policy
+          - listitem [ref=e966]:
+            - link "Terms & Conditions" [ref=e967] [cursor=pointer]:
+              - /url: /terms-conditions
+          - listitem [ref=e968]:
+            - link "Refund Policy" [ref=e969] [cursor=pointer]:
+              - /url: /refund-policy
+          - listitem [ref=e970]:
+            - link "Blog" [ref=e971] [cursor=pointer]:
+              - /url: /blogs
+      - generic [ref=e972]:
+        - heading "Get In Touch" [level=4] [ref=e973]
+        - generic [ref=e974]:
+          - link "+91 9486225762" [ref=e975] [cursor=pointer]:
+            - /url: tel:+919486225762
+            - img [ref=e976]
+            - generic [ref=e978]: +91 9486225762
+          - link "amudhamnaturals@gmail.com" [ref=e979] [cursor=pointer]:
+            - /url: mailto:amudhamnaturals@gmail.com
+            - img [ref=e980]
+            - generic [ref=e983]: amudhamnaturals@gmail.com
+          - generic [ref=e984]:
+            - img [ref=e985]
+            - generic [ref=e988]: Cuddalore, Tamil Nadu, India
+    - generic [ref=e990]:
+      - generic [ref=e991]:
+        - paragraph [ref=e992]: © 2026 Amudham Naturals. All rights reserved.
+        - paragraph [ref=e993]:
+          - text: "FSSAI License No:"
+          - strong [ref=e994]: "12425004000475"
+      - generic [ref=e995]:
+        - generic [ref=e996]: ✓ 100% Natural
+        - generic [ref=e997]: ✓ Quality Assured
+  - alert [ref=e998]
+```
+
+# Test source
+
+```ts
+  1  | // Generated for amudham from plan.md. Regenerated by /design.
+  2  | import { test, expect } from '../../../../../lib/fixtures';
+  3  | 
+  4  | test.describe('Full checkout flow (no payment) @flows @amudham', () => {
+  5  |   test('user adds a product and completes checkout steps up to the payment page without paying', async ({ authedPage: page }) => {
+  6  |     test.info().annotations.push({ type: 'description', value: 'End-to-end checkout: add Peanuts → proceed to checkout → fill customer details → review order → reach payment step without clicking Pay Now.' });
+  7  | 
+  8  |     // Step 1: Navigate to the home page
+  9  |     await page.goto('https://amudhamnaturals.com/');
+  10 | 
+  11 |     // Step 2: Click "Add" on Peanuts product card
+  12 |     await page.locator('#products').locator('article, [class*="card"], [class*="product"]')
+  13 |       .filter({ hasText: 'Peanuts' })
+  14 |       .first()
+  15 |       .getByRole('button', { name: 'Add' })
+> 16 |       .click();
+     |        ^ Error: locator.click: Target page, context or browser has been closed
+  17 | 
+  18 |     // Step 3: Click cart icon; click "Proceed to Checkout" in the cart panel
+  19 |     await page.getByRole('button', { name: /cart/i }).click();
+  20 |     await expect(page.getByRole('heading', { name: 'Shopping Cart' })).toBeVisible();
+  21 |     const cartPanel = page.locator('[class*="cart"], [class*="drawer"]').filter({ hasText: 'Shopping Cart' }).first();
+  22 |     await cartPanel.getByRole('link', { name: /proceed to checkout/i }).click();
+  23 | 
+  24 |     // Step 4: Assert URL is /checkout; "Customer Details" heading visible
+  25 |     await expect(page).toHaveURL(/\/checkout/);
+  26 |     await expect(page.getByRole('heading', { name: /customer details/i })).toBeVisible();
+  27 | 
+  28 |     // Step 5: Assert "In Your Cart" sidebar shows Peanuts 1kg × 1 at ₹280.00
+  29 |     await expect(page.getByText('Peanuts')).toBeVisible();
+  30 |     await expect(page.getByText('1kg')).toBeVisible();
+  31 |     await expect(page.getByText('₹280.00')).toBeVisible();
+  32 | 
+  33 |     // Step 6: Fill customer details form
+  34 |     await page.getByLabel(/full name/i).fill('Test User');
+  35 |     await page.getByLabel(/email/i).fill('test@example.com');
+  36 |     await page.getByLabel(/phone/i).fill('+91 9876543210');
+  37 |     await page.getByLabel(/shipping address/i).fill('123 Main Street');
+  38 |     await page.getByLabel(/city/i).fill('Chennai');
+  39 |     await page.getByLabel(/state/i).fill('Tamil Nadu');
+  40 |     await page.getByLabel(/pincode/i).fill('600001');
+  41 | 
+  42 |     // Step 7: Click "Review Order"
+  43 |     await page.getByRole('button', { name: 'Review Order' }).click();
+  44 | 
+  45 |     // Step 8: Assert "Order Summary" heading visible (Step 2 reached)
+  46 |     await expect(page.getByRole('heading', { name: /order summary/i })).toBeVisible();
+  47 | 
+  48 |     // Step 9: Assert "Shipping To" section shows "Test User" info
+  49 |     await expect(page.getByText('Test User')).toBeVisible();
+  50 |     await expect(page.getByText(/shipping to/i)).toBeVisible();
+  51 | 
+  52 |     // Step 10: Assert subtotal, GST, Shipping ("FREE"), Total Amount all listed
+  53 |     await expect(page.getByText(/subtotal/i)).toBeVisible();
+  54 |     await expect(page.getByText(/gst/i)).toBeVisible();
+  55 |     await expect(page.getByText(/free/i)).toBeVisible();
+  56 |     await expect(page.getByText(/total/i)).toBeVisible();
+  57 | 
+  58 |     // Step 11: Click "Proceed to Payment"
+  59 |     await page.getByRole('button', { name: /proceed to payment/i }).click();
+  60 | 
+  61 |     // Step 12: Assert "Secure Checkout" heading visible (Step 3 reached)
+  62 |     await expect(page.getByRole('heading', { name: /secure checkout/i })).toBeVisible();
+  63 | 
+  64 |     // Step 13: Assert "Pay Now" button visible and enabled
+  65 |     const payNowBtn = page.getByRole('button', { name: /pay now/i });
+  66 |     await expect(payNowBtn).toBeVisible();
+  67 |     await expect(payNowBtn).toBeEnabled();
+  68 | 
+  69 |     // Step 14: Assert paragraph about Razorpay payment methods visible
+  70 |     await expect(page.getByText(/razorpay/i)).toBeVisible();
+  71 | 
+  72 |     // Step 15: Do NOT click "Pay Now" — test ends here
+  73 |   });
+  74 | });
+  75 | 
+```
