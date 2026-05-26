@@ -21,9 +21,9 @@ Ask only: **"Does the app require login? If yes, how many roles are there and wh
 - If they provide roles: write `config.yaml` with those roles.
 - If they say no login / skip: write `config.yaml` with `roles: []` and `auth.flow: none`.
 
-Write `apps/{{app_name}}/config.yaml` with the base URL and any roles provided. Leave `auth.flow: unknown` unless the user said no login.
+Write `{{app_name}}/config.yaml` with the base URL and any roles provided. Leave `auth.flow: unknown` unless the user said no login.
 
-Write a stub `apps/{{app_name}}/description.md` with this content:
+Write a stub `{{app_name}}/description.md` with this content:
 
 ```markdown
 # {{app_name}}
@@ -57,7 +57,7 @@ _To be discovered._
 
 Then tell the user:
 
-- "Copy `apps/{{app_name}}/secrets.local.env.example` to `secrets.local.env` and fill in real credentials. That file is gitignored."
+- "Copy `{{app_name}}/secrets.local.env.example` to `secrets.local.env` and fill in real credentials. That file is gitignored."
 - "Run the **discover** prompt — it will crawl the app and fill in all the missing details automatically."
 
 Stop here. Do not ask further questions.
@@ -78,12 +78,12 @@ g. Anything explicitly out of scope (e.g. Fiori shell header, third-party widget
 
 Using the collected answers, write:
 
-- `apps/{{app_name}}/config.yaml` — fill base_url, roles (id, label, secret_user, secret_pass env var names). Leave `auth.flow: unknown`.
-- `apps/{{app_name}}/description.md` — fill every section the user answered. For any section the user skipped, write `_To be discovered._` so the discover stage fills it in.
+- `{{app_name}}/config.yaml` — fill base_url, roles (id, label, secret_user, secret_pass env var names). Leave `auth.flow: unknown`.
+- `{{app_name}}/description.md` — fill every section the user answered. For any section the user skipped, write `_To be discovered._` so the discover stage fills it in.
 
 Then tell the user:
 
-- "Copy `apps/{{app_name}}/secrets.local.env.example` to `secrets.local.env` and fill in real credentials. That file is gitignored."
+- "Copy `{{app_name}}/secrets.local.env.example` to `secrets.local.env` and fill in real credentials. That file is gitignored."
 - "Then use the **discover** prompt to crawl the app and detect its auth flow."
 
 ---

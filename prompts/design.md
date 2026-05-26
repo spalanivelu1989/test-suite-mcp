@@ -7,48 +7,58 @@ You are orchestrating the design stage for app: {{app_name}}
 2. Confirm `lib/auth.ts` and `lib/fixtures.ts` exist in the project root.
    - If either is missing, stop — generated specs depend on the fixture for auth.
 
-## Step 1 — Generate specs (model-based path)
+## Category ownership (no category is ever generated twice)
 
-Spawn 5 `test-designer` sub-agents in parallel (spec appended below) — one per category:
+Each category is produced by exactly **one** path:
 
-| Category         | What it generates                                                            |
-| ---------------- | ---------------------------------------------------------------------------- |
-| `smoke`          | Landing page loads, no console errors, nav links visible (one spec per role) |
-| `functional`     | Happy-path and validation specs for every detected form and list             |
-| `flows`          | One spec per user journey from `description.md`                              |
-| `authz`          | Page-access assertions for every role/page pair (capped at 20)               |
-| `migration-risk` | Regression checks for Lovable → BTP common failure modes                     |
+| Category         | Owner | Path                                            |
+| ---------------- | ----- | ----------------------------------------------- |
+| `smoke`          | model | `test-designer` → `generated/model/`            |
+| `authz`          | model | `test-designer` → `generated/model/`            |
+| `migration-risk` | model | `test-designer` → `generated/model/`            |
+| `functional`     | live  | `playwright-test-generator` → `generated/live/` |
+| `flows`          | live  | `playwright-test-generator` → `generated/live/` |
+
+The live path verifies real locators in the browser, so it owns the interaction-heavy categories (`functional`, `flows`). The model path is structural (no browser) and owns the breadth categories (`smoke`, `authz`, `migration-risk`). The two never overlap, so `test-app` runs each scenario only once.
+
+**Before anything else, check whether `{{app_name}}/tests/plan.md` exists** — this decides who owns `functional` and `flows`.
+
+## Step 1 — Model-based specs (`test-designer`)
+
+Spawn `test-designer` sub-agents in parallel (spec appended below), one per category:
+
+- **Always spawn**: `smoke`, `authz`, `migration-risk`.
+- **Fallback only — spawn `functional` and `flows` ONLY if `plan.md` does NOT exist.** When `plan.md` exists, the live path owns these; do not spawn them here or you reintroduce duplicate tests.
 
 Pass to each sub-agent:
 
 - `app`: `{{app_name}}`
 - `category`: the category name
 - `app_model`: the JSON object returned by `read_app_model` (pass inline — do not re-read from disk)
-- `description_path`: `apps/{{app_name}}/description.md`
-- `out_dir`: `apps/{{app_name}}/tests/generated/model/<category>/` (substitute the category name)
+- `description_path`: `{{app_name}}/description.md`
+- `out_dir`: `{{app_name}}/tests/generated/model/<category>/` (substitute the category name)
 
-## Step 2 — Generate specs (live-execution path, if plan exists)
+## Step 2 — Live-execution specs (`playwright-test-generator`)
 
-Check whether `apps/{{app_name}}/tests/plan.md` exists.
-
-- **If it does not exist**: skip this step. The model-based specs from Step 1 are sufficient. Suggest running `/discover {{app_name}}` again if live-execution coverage is desired.
-- **If it exists**: spawn **one** `playwright-test-generator` sub-agent (spec appended below) with `scenario: "all"` to process every scenario in the plan. The generator executes each scenario live in a browser to confirm real locators, then writes a `.spec.ts` per scenario to `apps/{{app_name}}/tests/generated/live/<category>/`.
+- **If `plan.md` does not exist**: skip this step. Step 1's fallback already covered `functional` and `flows`. Suggest re-running `/discover {{app_name}}` if browser-verified coverage is desired.
+- **If `plan.md` exists**: spawn **one** `playwright-test-generator` sub-agent (spec appended below) with `scenario: "all"`. It resolves locators from `app-model.json` first and goes live only for gaps the model cannot capture, then writes one `.spec.ts` per scenario to `{{app_name}}/tests/generated/live/<category>/`.
 
   Pass to the sub-agent:
   - `app`: `{{app_name}}`
-  - `plan_path`: `apps/{{app_name}}/tests/plan.md`
+  - `plan_path`: `{{app_name}}/tests/plan.md`
   - `scenario`: `"all"`
-  - `base_url`: from `apps/{{app_name}}/config.yaml`
-  - `seed_file`: `apps/seed.spec.ts`
-  - `fixtures_import`: `../../../../../../lib/fixtures`
+  - `base_url`: from `{{app_name}}/config.yaml`
+  - `app_model`: the JSON object returned by `read_app_model` (pass inline — the generator has only `Read`, no `Glob`/`Bash`, so it cannot locate the file itself)
+  - `seed_file`: `seed.spec.ts`
+  - `fixtures_import`: `../../../../../lib/fixtures`
   - `auth_fixture`: `authedPage`
 
-  Live-execution specs complement the model-based ones — both sets run together in `test-app`.
+  The plan contains only `functional` and `flows` scenarios, so live specs never overlap the model-based categories.
 
 ## Output
 
-- Model-based: `apps/{{app_name}}/tests/generated/model/<category>/*.spec.ts`
-- Live-execution: `apps/{{app_name}}/tests/generated/live/<category>/*.spec.ts`
+- Model-based: `{{app_name}}/tests/generated/model/<category>/*.spec.ts`
+- Live-execution: `{{app_name}}/tests/generated/live/<category>/*.spec.ts`
 
 ## Step 3 — After design completes
 
@@ -60,5 +70,5 @@ Tell the user:
 
 ## Constraints
 
-- `apps/{{app_name}}/tests/curated/` is never touched by this stage.
+- `{{app_name}}/tests/curated/` is never touched by this stage.
 - All specs must route auth through `lib/fixtures.ts` — no hardcoded `storageState` paths.

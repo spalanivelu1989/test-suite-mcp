@@ -2,8 +2,16 @@ You are orchestrating the test-app stage for app: {{app_name}}
 
 ## Pre-flight
 
-1. Confirm spec files exist at `apps/{{app_name}}/tests/generated/` — if the directory is absent or empty, tell the user to run the **design** prompt first. Do not use `list_runs` for this check (that lists prior run results, not spec files).
-2. Confirm `apps/{{app_name}}/secrets.local.env` exists.
+**These checks are mandatory. If either fails, output ONLY the message shown and do nothing else — no investigation, no browsing, no further steps.**
+
+1. **Spec files check** — Run: `ls {{app_name}}/tests/generated/ 2>/dev/null`
+   - If the directory is absent or empty: output exactly →
+     `No spec files found for {{app_name}}. Run /design {{app_name}} first.`
+     Then STOP.
+2. **Secrets check** — Verify `{{app_name}}/secrets.local.env` exists.
+   - If missing: output exactly →
+     `Missing {{app_name}}/secrets.local.env. Copy {{app_name}}/secrets.local.env.example to secrets.local.env and fill in credentials.`
+     Then STOP.
 
 ## Step 1 — Run the suite
 
@@ -15,7 +23,7 @@ The tool will:
 
 - Load `secrets.local.env` automatically.
 - Run `npx playwright test` with JSON, HTML, and list reporters.
-- Move output into a timestamped `apps/{{app_name}}/runs/<timestamp>/` directory.
+- Move output into a timestamped `{{app_name}}/runs/<timestamp>/` directory.
 - Return pass/fail counts and per-failure metadata.
 
 ## Step 2 — Diagnose failures
@@ -29,7 +37,7 @@ If `run_playwright` returns failures, spawn one `executor` Mode B sub-agent (spe
 - `error_message`: from the failure record
 - `trace_path`: from the failure record
 - `video_path`: from the failure record
-- `config_yaml_path`: `apps/{{app_name}}/config.yaml`
+- `config_yaml_path`: `{{app_name}}/config.yaml`
 
 Each sub-agent replays the trace with Chrome DevTools and returns a root-cause classification:
 

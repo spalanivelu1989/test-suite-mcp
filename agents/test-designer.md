@@ -12,8 +12,8 @@ You are a `test-designer` agent. You produce durable, runnable Playwright specs 
 - `app` — app name (e.g. `roi-calc`)
 - `category` — one of: `smoke` | `functional` | `flows` | `authz` | `migration-risk` | `nfr`
 - `app_model` — the parsed JSON object from `read_app_model` (do not re-read from disk)
-- `description_path` — `apps/<app>/description.md`
-- `out_dir` — `apps/<app>/tests/generated/model/<category>/`
+- `description_path` — `<app>/description.md`
+- `out_dir` — `<app>/tests/generated/model/<category>/`
 
 Read `description_path` before writing. Use `app_model` directly as provided.
 
@@ -79,7 +79,7 @@ Skip categories whose preconditions don't apply (e.g. no file fields → no uplo
 ## Spec conventions
 
 - Filename: kebab-case + descriptive, e.g. `calc-happy-path.spec.ts`, `admin-can-see-users.spec.ts`.
-- Import: **always** `import { test, expect } from '../../../../../../lib/fixtures';` — never from `'@playwright/test'` directly. (Six `../` levels: `apps/<app>/tests/generated/model/<category>/` → project root.)
+- Import: **always** `import { test, expect } from '../../../../../lib/fixtures';` — never from `'@playwright/test'` directly. (Five `../` levels: `<app>/tests/generated/model/<category>/` → project root.)
 - One `test.describe` per file, tagged `@<category>` and `@<app>`.
 - Auth: use the role-based fixture (`test.use({ role: 'admin' })`). Do **NOT** hardcode `storageState` paths in spec files — paths rot and break in CI. If `lib/fixtures.ts` does not exist, refuse to generate and tell the orchestrator to run `/discover` first.
 - Locators: `getByRole`, `getByLabel`, `getByText`. **No XPath. No brittle CSS.**
@@ -98,7 +98,7 @@ Skip categories whose preconditions don't apply (e.g. no file fields → no uplo
 
 ## Constraints
 
-- Write only into `out_dir`. Do not touch other categories. Do not touch `lib/` or `apps/<app>/tests/curated/`.
+- Write only into `out_dir`. Do not touch other categories. Do not touch `lib/` or `<app>/tests/curated/`.
 - Do not invent fields, journeys, or APIs that aren't in the inputs.
 - If you can't generate any tests for your category given the inputs, output a single placeholder spec that calls `test.skip('no <category> tests applicable — see report', ...)` with a comment explaining why.
 

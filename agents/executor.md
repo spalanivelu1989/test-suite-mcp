@@ -15,10 +15,10 @@ Actions:
 
 1. Call `mcp__test-suite-mcp__run_playwright` with `app` and (if provided) `category`.
    The tool automatically:
-   - Loads `apps/<app>/secrets.local.env`
+   - Loads `<app>/secrets.local.env`
    - Runs `npx playwright test` with JSON, HTML, and list reporters
    - Enforces production guardrails (skips `@destructive` if `is_production: true`)
-   - Archives output into a timestamped `apps/<app>/runs/<ts>/` directory
+   - Archives output into a timestamped `<app>/runs/<ts>/` directory
 2. Return the tool response verbatim — it already contains:
    - `total`, `passed`, `failed`, `skipped`, `duration_ms`
    - For each failure: `{test_id, title, file, error_message, trace_path, video_path}`
@@ -30,13 +30,13 @@ Do not retry failures yourself. Playwright handles retries per config.
 
 Inputs (passed by the orchestrator):
 
-- `test_id` — unique test identifier (e.g. `apps/roi-calc/tests/generated/smoke/foo.spec.ts > Title`)
+- `test_id` — unique test identifier (e.g. `roi-calc/tests/generated/smoke/foo.spec.ts > Title`)
 - `title` — human-readable test title
 - `file` — absolute path to the spec file
 - `error_message` — raw error from Playwright
 - `trace_path` — path to the `.zip` trace file (may be null)
 - `video_path` — path to the video recording (may be null)
-- `config_yaml_path` — e.g. `apps/<app>/config.yaml`
+- `config_yaml_path` — e.g. `<app>/config.yaml`
 
 Include `test_id` and `file` verbatim in the output diagnosis so the healer can identify and edit the correct spec.
 

@@ -1,27 +1,43 @@
 import { execSync } from "child_process";
 import { mkdirSync, existsSync, cpSync, rmSync, readFileSync } from "fs";
-import { join } from "path";
+import { join, dirname } from "path";
+import { fileURLToPath } from "url";
 import { config as loadDotenv } from "dotenv";
-import { PROJECT_ROOT, appRunsDir, appTestsDir, appsDir, } from "../lib/paths.js";
+import { PROJECT_ROOT, appRunsDir, appTestsDir, appDir } from "../lib/paths.js";
+// Resolve the playwright binary that ships with this package so we never
+// fall through to npx downloading it at runtime.
+const PACKAGE_ROOT = join(dirname(fileURLToPath(import.meta.url)), "../..");
+const PLAYWRIGHT_BIN = join(PACKAGE_ROOT, "node_modules", ".bin", "playwright");
+const PLAYWRIGHT_CONFIG = join(PACKAGE_ROOT, "playwright.config.ts");
 export function runPlaywright(app, category) {
     // Load app secrets into the child process environment
-    const secretsFile = join(appsDir(), app, "secrets.local.env");
+    const secretsFile = join(appDir(app), "secrets.local.env");
     const childEnv = { ...process.env };
     if (existsSync(secretsFile)) {
         const parsed = loadDotenv({ path: secretsFile, processEnv: {} });
         Object.assign(childEnv, parsed.parsed ?? {});
     }
-    const testPath = category
-        ? join(appTestsDir(app), "generated", category)
-        : appTestsDir(app);
-    if (!existsSync(testPath)) {
-        throw new Error(`Test path not found: ${testPath}. Run /design ${app} first.`);
+    let testPaths;
+    if (category) {
+        const modelPath = join(appTestsDir(app), "generated", "model", category);
+        const livePath = join(appTestsDir(app), "generated", "live", category);
+        testPaths = [modelPath, livePath].filter(existsSync);
+        if (testPaths.length === 0) {
+            throw new Error(`No "${category}" specs found under ${join(appTestsDir(app), "generated")}. Run /design ${app} first.`);
+        }
+    }
+    else {
+        const testsDir = appTestsDir(app);
+        if (!existsSync(testsDir)) {
+            throw new Error(`Test directory not found: ${testsDir}. Run /design ${app} first.`);
+        }
+        testPaths = [testsDir];
     }
     const ts = new Date().toISOString().replace(/:/g, "-").replace(/\..+/, "");
     const runDir = join(appRunsDir(app), ts);
     mkdirSync(runDir, { recursive: true });
     try {
-        execSync(`npx playwright test ${testPath}`, {
+        execSync(`"${PLAYWRIGHT_BIN}" test --config "${PLAYWRIGHT_CONFIG}" ${testPaths.join(" ")}`, {
             cwd: PROJECT_ROOT,
             env: childEnv,
             // 10-minute ceiling; individual test timeouts are set in playwright.config.ts

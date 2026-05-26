@@ -1,6 +1,6 @@
 import { mkdirSync, writeFileSync, existsSync } from "fs";
 import { join } from "path";
-import { appsDir } from "../lib/paths.js";
+import { appDir } from "../lib/paths.js";
 
 export interface ScaffoldResult {
   app_dir: string;
@@ -87,8 +87,8 @@ export function scaffoldApp(name: string): ScaffoldResult {
       `App name must be kebab-case (e.g. "roi-calc"), got: "${name}"`,
     );
   }
-  const dest = join(appsDir(), name);
-  if (existsSync(dest)) {
+  const dest = appDir(name);
+  if (existsSync(join(dest, "config.yaml"))) {
     throw new Error(`App "${name}" already exists at ${dest}`);
   }
 

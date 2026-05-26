@@ -38,12 +38,12 @@ server.setRequestHandler(ListToolsRequestSchema, async () => ({
         ...getBrowserTools(),
         {
             name: "list_apps",
-            description: "Return every app name registered under apps/.",
+            description: "Return every app name registered under the project root.",
             inputSchema: { type: "object", properties: {}, required: [] },
         },
         {
             name: "scaffold_app",
-            description: "Copy the _template into apps/<name>/ to register a new app. " +
+            description: "Copy the _template into <name>/ to register a new app. " +
                 "Raises an error if the name already exists or is not kebab-case.",
             inputSchema: {
                 type: "object",
@@ -83,9 +83,9 @@ server.setRequestHandler(ListToolsRequestSchema, async () => ({
         {
             name: "run_playwright",
             description: "Run the Playwright suite for an app (optionally scoped to one category). " +
-                "Loads apps/<app>/secrets.local.env automatically. " +
+                "Loads <app>/secrets.local.env automatically. " +
                 "Returns pass/fail counts and per-failure metadata (error, trace path, video path). " +
-                "Moves Playwright output into a timestamped apps/<app>/runs/<ts>/ directory.",
+                "Moves Playwright output into a timestamped <app>/runs/<ts>/ directory.",
             inputSchema: {
                 type: "object",
                 properties: {
@@ -147,9 +147,9 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
                             text: `Scaffolded app at ${result.app_dir}\n\n` +
                                 `Files created:\n${result.created.join("\n")}\n\n` +
                                 `Next steps:\n` +
-                                `1. Copy apps/${args.name}/secrets.local.env.example to apps/${args.name}/secrets.local.env and fill in credentials.\n` +
-                                `2. Edit apps/${args.name}/config.yaml (base_url, roles).\n` +
-                                `3. Edit apps/${args.name}/description.md (journeys, rules, known bugs).\n` +
+                                `1. Copy ${args.name}/secrets.local.env.example to ${args.name}/secrets.local.env and fill in credentials.\n` +
+                                `2. Edit ${args.name}/config.yaml (base_url, roles).\n` +
+                                `3. Edit ${args.name}/description.md (journeys, rules, known bugs).\n` +
                                 `4. Run the discover prompt to crawl the app.`,
                         },
                     ],

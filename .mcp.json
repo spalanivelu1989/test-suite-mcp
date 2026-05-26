@@ -1,11 +1,19 @@
 {
   "mcpServers": {
+    "test-suite-mcp": {
+      "command": "node",
+      "args": ["dist/index.js"],
+      "cwd": "${workspaceFolder}"
+    },
     "playwright-test": {
       "command": "npx",
       "args": [
         "playwright",
-        "run-test-mcp-server"
-      ]
+        "run-test-mcp-server",
+        "--config",
+        "playwright.config.ts"
+      ],
+      "cwd": "${workspaceFolder}"
     }
   }
 }

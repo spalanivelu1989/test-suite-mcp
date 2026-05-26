@@ -1,9 +1,16 @@
-import { readdirSync, statSync, existsSync } from "fs";
+import { readdirSync, existsSync, statSync } from "fs";
 import { join } from "path";
-import { appsDir } from "../lib/paths.js";
+import { PROJECT_ROOT } from "../lib/paths.js";
 export function listApps() {
-    const dir = appsDir();
-    if (!existsSync(dir))
+    if (!existsSync(PROJECT_ROOT))
         return [];
-    return readdirSync(dir).filter((name) => !name.startsWith("_") && statSync(join(dir, name)).isDirectory());
+    return readdirSync(PROJECT_ROOT).filter((entry) => {
+        const dir = join(PROJECT_ROOT, entry);
+        try {
+            return (statSync(dir).isDirectory() && existsSync(join(dir, "config.yaml")));
+        }
+        catch {
+            return false;
+        }
+    });
 }
