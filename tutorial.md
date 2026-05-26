@@ -108,7 +108,7 @@ Replace `my-app-name` with a short label for your app (lowercase, hyphens only �
 Two agents work in sequence:
 
 1. **`understanding` agent** — Logs in as each role, visits every page, and records what it finds (buttons, forms, navigation links, API calls). This takes a few minutes.
-2. **`playwright-test-planner` agent** — Explores the live app and designs a set of test scenarios based on what it saw.
+2. **`playwright-test-planner` agent** — Reads the app map and designs the `functional` and `flows` test scenarios. It only opens the browser for things the map can't capture (what a form shows after you submit it, validation messages, multi-step transitions), rather than re-crawling pages the first agent already mapped.
 
 **Files it creates:**
 
@@ -135,26 +135,31 @@ After this step, open `apps/my-app-name/tests/plan.md` to review the test plan. 
 
 **What happens behind the scenes:**
 
-Two sets of agents work to produce test files:
+Tests are split across two paths so that **no behavior is ever tested twice**. Each category is written by exactly one agent:
 
-1. **`test-designer` agents** (one per test category, running in parallel) — Read the app map and write tests based on what was discovered statically. These cover five categories:
+1. **`test-designer` agents** (running in parallel) — Write tests directly from the app map, no browser needed. They own the breadth categories:
 
    | Category         | What gets tested                                             |
    | ---------------- | ------------------------------------------------------------ |
    | `smoke`          | Does the app load? Are the main links visible?               |
-   | `functional`     | Do forms work? Do validation messages appear correctly?      |
-   | `flows`          | Can a user complete a full journey end to end?               |
    | `authz`          | Can each role access the right pages (and only those pages)? |
    | `migration-risk` | Are there any signs the app broke during a recent migration? |
 
-2. **`playwright-test-generator` agent** — Executes each scenario from `plan.md` live in a browser, confirms the exact buttons and fields to click, then writes the test code.
+2. **`playwright-test-generator` agent** — Writes the interaction-heavy categories. It takes the locators from the app map first and only opens the browser to confirm the parts the map can't show (form results, validation text, flow transitions):
+
+   | Category     | What gets tested                                        |
+   | ------------ | ------------------------------------------------------- |
+   | `functional` | Do forms work? Do validation messages appear correctly? |
+   | `flows`      | Can a user complete a full journey end to end?          |
+
+If the planner didn't run during `/discover` (so there's no `plan.md`), the `test-designer` agents cover `functional` and `flows` too, as a fallback — you never lose coverage.
 
 **Files it creates:**
 
-| Folder                                               | What it contains                                                  |
-| ---------------------------------------------------- | ----------------------------------------------------------------- |
-| `apps/my-app-name/tests/generated/model/<category>/` | Tests written from the app map (one file per scenario)            |
-| `apps/my-app-name/tests/generated/live/<category>/`  | Tests written from live browser execution (one file per scenario) |
+| Folder                                               | What it contains                                                    |
+| ---------------------------------------------------- | ------------------------------------------------------------------- |
+| `apps/my-app-name/tests/generated/model/<category>/` | `smoke`, `authz`, `migration-risk` tests (written from the app map) |
+| `apps/my-app-name/tests/generated/live/<category>/`  | `functional`, `flows` tests (locators verified in a browser)        |
 
 These are standard `.spec.ts` Playwright test files. You do not need to edit them.
 
@@ -182,7 +187,7 @@ Three agents handle this stage:
 
 1. **`executor` agent** — Examines each failed test and works out why it failed (wrong selector, session expired, app bug, etc.).
 2. **`playwright-test-healer` agent** — For failures it can fix automatically (e.g. a button label changed), it edits the test file and re-runs to confirm the fix.
-3. **`reporter` agent** — Assembles everything into a plain-English report.
+3. **`reporter` agent** — Assembles everything into a plain-English report: a success-rate percentage, a What Passed / What Needs Attention / Where to Improve breakdown, and copy-pasteable **Fix Prompts** that list every concrete problem and the exact change to make. Tests the healer repaired are counted as passing.
 
 **Files it creates:**
 
@@ -203,7 +208,12 @@ After `/test-app` completes, Claude will show you a summary. To open the full vi
 3. Open `report.html` in your browser for the plain-English version
 4. Open `playwright-report/index.html` for the detailed technical report with screenshots of every failure
 
-The report always leads with **Migration Risk Findings** — these are the most important failures to look at first, as they indicate the app may have broken during a recent update.
+The plain-English report (`report.md` / `report.html`) gives you:
+
+- **Success rate** — the percentage of tests that passed (passed ÷ total).
+- **What Passed / What Needs Attention / Where to Improve** — every test explained in plain language, with no stack traces or line numbers.
+- **Migration Risk Findings** — surfaced first, since they indicate the app may have broken during a recent update.
+- **Fix Prompts** — ready-to-paste instructions you can hand to Claude (or a developer) to fix each concrete problem found.
 
 ---
 
@@ -223,16 +233,13 @@ apps/
     tests/
       plan.md                 ← The test plan (readable by humans)
       generated/
-        model/                ← Tests written from app map
+        model/                ← smoke, authz, migration-risk (from app map)
           smoke/
-          functional/
-          flows/
           authz/
           migration-risk/
-        live/                 ← Tests written from live execution
-          smoke/
+        live/                 ← functional, flows (verified in browser)
           functional/
-          ...
+          flows/
     runs/
       2026-05-26T10-30-00/    ← Results from one test run
         report.md
@@ -264,9 +271,9 @@ You do not need to interact with agents directly — the commands above call the
 | Agent file                     | Called by   | What it does                                               |
 | ------------------------------ | ----------- | ---------------------------------------------------------- |
 | `understanding.md`             | `/discover` | Logs in and crawls every page of the app                   |
-| `playwright-test-planner.md`   | `/discover` | Designs the test scenarios from what was found             |
-| `test-designer.md`             | `/design`   | Writes test code from the app map (domain-aware)           |
-| `playwright-test-generator.md` | `/design`   | Writes test code by re-running scenarios live in a browser |
+| `playwright-test-planner.md`   | `/discover` | Plans the functional + flows scenarios (map-first)         |
+| `test-designer.md`             | `/design`   | Writes smoke, authz, migration-risk tests from the app map |
+| `playwright-test-generator.md` | `/design`   | Writes functional + flows tests, verifying locators live   |
 | `executor.md`                  | `/test-app` | Diagnoses why a test failed                                |
 | `playwright-test-healer.md`    | `/test-app` | Automatically fixes tests it can repair                    |
 | `reporter.md`                  | `/test-app` | Writes the plain-English report                            |
