@@ -26,14 +26,21 @@ This sub-agent will:
 
 Wait for the `understanding` sub-agent to complete before proceeding. The auth files it writes (`{{app_name}}/.auth/<role>.json`) must exist before the planner starts — the planner has no login logic of its own.
 
+**After the understanding agent reports completion**, verify that `app-model.json` was written:
+1. Check if `{{app_name}}/runs/<latest-timestamp>/app-model.json` exists
+2. If it does NOT exist: **The agent wrote screenshots and per-page JSON but didn't write app-model.json.** Tell the understanding agent to resume and complete the final aggregation step — specifically to build the app-model.json schema from the crawled data and write it to the run directory. Do not proceed until the file exists.
+3. If it exists: Read it with `read_app_model` to confirm it's valid JSON, then proceed to step 1b.
+
 ### 1b. `playwright-test-planner` sub-agent (spec appended below)
+
+Read `app-model.json` using `read_app_model` to confirm it's valid, then pass it to the planner:
 
 Inputs:
 
 - `app`: `{{app_name}}`
 - `base_url`: from `{{app_name}}/config.yaml`
 - `roles`: role list from `{{app_name}}/config.yaml`
-- `app_model`: the `app-model.json` content from Step 1a
+- `app_model`: the parsed JSON object from `read_app_model({{app_name}})`
 
 This sub-agent explores the app live (using the auth files from Step 1a) and writes a structured test plan to `{{app_name}}/tests/plan.md`. The plan is consumed by `playwright-test-generator` during the **design** stage.
 

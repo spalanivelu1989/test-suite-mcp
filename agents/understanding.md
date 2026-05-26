@@ -68,6 +68,8 @@ Skip pages that are:
 
 ### 4. Write artifacts
 
+Write all crawled data to the run directory:
+
 ```
 <app>/.auth/<role>.json                    # Playwright storageState (stable, gitignored)
 <app>/runs/<timestamp>/
@@ -75,6 +77,14 @@ Skip pages that are:
 ├── crawl/<role>/<page-slug>.json               # per-page detail
 └── app-model.json                              # top-level summary (schema below)
 ```
+
+**Critical:** Before completing this stage, you MUST:
+1. Aggregate all crawled pages, roles, and metadata into the `app-model.json` schema
+2. Write `app-model.json` to `<run_dir>/app-model.json`
+3. Verify the file exists and contains valid JSON (read it back and parse it)
+4. If verification fails, return an error describing what went wrong rather than silently completing
+
+Do not signal success until `app-model.json` is confirmed to exist and be valid.
 
 ### app-model.json schema
 
@@ -137,3 +147,10 @@ Skip pages that are:
 ## Output to the orchestrator
 
 A one-paragraph summary plus the absolute path to `app-model.json`.
+
+**The output MUST include the file path in this exact format:**
+```
+app-model.json: <absolute-path-to-app-model.json>
+```
+
+This allows the orchestrator to confirm that the file exists at the expected location.
