@@ -36,6 +36,14 @@ export function runPlaywright(app, category) {
     const ts = new Date().toISOString().replace(/:/g, "-").replace(/\..+/, "");
     const runDir = join(appRunsDir(app), ts);
     mkdirSync(runDir, { recursive: true });
+    // Ensure the Chromium browser binary is present before running tests.
+    // This is a no-op if already installed, so it's safe to run every time.
+    // Handles the case where this package was installed as a dependency (postinstall
+    // scripts don't run for transitive deps) or where the cache was cleared.
+    execSync(`"${PLAYWRIGHT_BIN}" install chromium`, {
+        stdio: "inherit",
+        timeout: 120_000,
+    });
     try {
         execSync(`"${PLAYWRIGHT_BIN}" test --config "${PLAYWRIGHT_CONFIG}" ${testPaths.join(" ")}`, {
             cwd: PROJECT_ROOT,
@@ -50,9 +58,11 @@ export function runPlaywright(app, category) {
         // Actual infrastructure errors (missing binary, config parse failure) will
         // still throw because they write nothing to test-results/.
     }
-    // Move Playwright's default output locations into the run directory
-    const srcResults = join(PROJECT_ROOT, "test-results");
-    const srcReport = join(PROJECT_ROOT, "playwright-report");
+    // Move Playwright's default output locations into the run directory.
+    // Playwright resolves outputDir/outputFile relative to the config file, so
+    // these land under PACKAGE_ROOT, not PROJECT_ROOT (the app workspace root).
+    const srcResults = join(PACKAGE_ROOT, "test-results");
+    const srcReport = join(PACKAGE_ROOT, "playwright-report");
     const destResults = join(runDir, "test-results");
     const destReport = join(runDir, "playwright-report");
     if (existsSync(srcResults)) {
