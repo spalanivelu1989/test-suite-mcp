@@ -1,7 +1,14 @@
 import { defineConfig, devices } from "@playwright/test";
+import { resolve } from "path";
+
+// BROWSER_TESTER_ROOT is always set by run-playwright.ts to PROJECT_ROOT.
+// The fallback (process.cwd()) is only used for IDE test-discovery.
+const TEST_ROOT = process.env.BROWSER_TESTER_ROOT
+  ? resolve(process.env.BROWSER_TESTER_ROOT)
+  : process.cwd();
 
 export default defineConfig({
-  testDir: "apps",
+  testDir: TEST_ROOT,
   outputDir: "test-results",
   timeout: 60_000,
   retries: 1,

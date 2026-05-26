@@ -3,7 +3,10 @@
     "test-suite-mcp": {
       "command": "node",
       "args": ["dist/index.js"],
-      "cwd": "${workspaceFolder}"
+      "cwd": "${workspaceFolder}",
+      "env": {
+        "BROWSER_TESTER_ROOT": "${workspaceFolder}"
+      }
     },
     "playwright-test": {
       "command": "npx",
