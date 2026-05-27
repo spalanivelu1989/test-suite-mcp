@@ -81,7 +81,7 @@ Skip categories whose preconditions don't apply (e.g. no file fields → no uplo
 ## Spec conventions
 
 - Filename: kebab-case + descriptive, e.g. `calc-happy-path.spec.ts`, `admin-can-see-users.spec.ts`.
-- Import: **always** `import { test, expect } from '../../../../../lib/fixtures';` — never from `'@playwright/test'` directly. (Five `../` levels: `<app>/tests/generated/model/<category>/` → project root.)
+- Import: **always** `import { test, expect } from '../../../../lib/fixtures';` — never from `'@playwright/test'` directly. (Four `../` levels: `<app>/tests/generated/model/<category>/` → `<app>/`, where `lib/` lives.)
 - One `test.describe` per file, tagged `@<category>` and `@<app>`.
 - Auth: use the role-based fixture (`test.use({ role: 'admin' })`). Do **NOT** hardcode `storageState` paths in spec files — paths rot and break in CI. If `lib/fixtures.ts` does not exist, refuse to generate and tell the orchestrator to run `/discover` first.
 - Locators: `getByRole`, `getByLabel`, `getByText`. **No XPath. No brittle CSS.**
