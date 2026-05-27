@@ -27,6 +27,7 @@ This sub-agent will:
 Wait for the `understanding` sub-agent to complete before proceeding. The auth files it writes (`{{app_name}}/.auth/<role>.json`) must exist before the planner starts — the planner has no login logic of its own.
 
 **After the understanding agent reports completion**, verify that `app-model.json` was written:
+
 1. Check if `{{app_name}}/runs/<latest-timestamp>/app-model.json` exists
 2. If it does NOT exist: **The agent wrote screenshots and per-page JSON but didn't write app-model.json.** Tell the understanding agent to resume and complete the final aggregation step — specifically to build the app-model.json schema from the crawled data and write it to the run directory. Do not proceed until the file exists.
 3. If it exists: Read it with `read_app_model` to confirm it's valid JSON, then proceed to step 1b.
@@ -107,3 +108,13 @@ Import `loginAsRole` from `./auth`.
 
 - Do not design or run tests in this stage.
 - If `lib/auth.ts` / `lib/fixtures.ts` are missing after a successful crawl, the design stage will fail — flag this.
+
+---
+
+## Next step
+
+After the crawl summary (and any `lib/` bootstrap) is reported, end your response with exactly this block:
+
+> ✅ **`discover` complete for `{{app_name}}`.**
+> **Next, run:** `/design {{app_name}}`
+> This generates the Playwright `.spec.ts` files from the crawled app model and the test plan.

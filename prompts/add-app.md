@@ -58,9 +58,8 @@ _To be discovered._
 Then tell the user:
 
 - "Copy `{{app_name}}/secrets.local.env.example` to `secrets.local.env` and fill in real credentials. That file is gitignored."
-- "Run the **discover** prompt — it will crawl the app and fill in all the missing details automatically."
 
-Stop here. Do not ask further questions.
+Then output the **Next step** block (see end of this prompt). Stop here — do not ask further questions.
 
 ---
 
@@ -84,7 +83,8 @@ Using the collected answers, write:
 Then tell the user:
 
 - "Copy `{{app_name}}/secrets.local.env.example` to `secrets.local.env` and fill in real credentials. That file is gitignored."
-- "Then use the **discover** prompt to crawl the app and detect its auth flow."
+
+Then output the **Next step** block (see end of this prompt).
 
 ---
 
@@ -93,3 +93,13 @@ Then tell the user:
 - Do not generate tests, write to `lib/`, or run Playwright in this stage.
 - Do not move to the next interview question until the user has answered the current one.
 - Never block progress waiting for journey details — they are always optional.
+
+---
+
+## Next step
+
+After the files are written and the credential note is shown, end your response with exactly this block:
+
+> ✅ **`add-app` complete for `{{app_name}}`.**
+> **Next, run:** `/discover {{app_name}}`
+> This crawls the app, detects the auth flow, and fills in the discovered details automatically.

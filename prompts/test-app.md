@@ -80,3 +80,16 @@ The report leads with **Migration Risk Findings** — failures tagged `@migratio
 
 - If `config.yaml` has `guardrails.is_production: true`, do NOT run any test tagged `@destructive`.
 - Logout tests invalidate shared sessions. Gate them behind `RUN_LOGOUT_TESTS=1` and run with `--workers=1`.
+
+---
+
+## Next step
+
+This is the final stage of the pipeline. After displaying the report, end your response with exactly this block:
+
+> ✅ **`test-app` complete for `{{app_name}}`.** The report above is the final output of the pipeline.
+> **Follow-ups:**
+>
+> - Re-run after fixes: `/test-app {{app_name}}`
+> - Regenerate specs: `/design {{app_name}}`
+> - Re-crawl the app: `/discover {{app_name}}`

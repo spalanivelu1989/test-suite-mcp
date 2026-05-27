@@ -66,9 +66,18 @@ Tell the user:
 
 - How many spec files were written (model-based vs live-execution).
 - Whether any live scenarios were marked `test.fixme()` (needs attention before running).
-- They can run the **test-app** prompt to execute the full suite.
 
 ## Constraints
 
 - `{{app_name}}/tests/curated/` is never touched by this stage.
 - All specs must route auth through `lib/fixtures.ts` — no hardcoded `storageState` paths.
+
+---
+
+## Next step
+
+After reporting the spec counts, end your response with exactly this block:
+
+> ✅ **`design` complete for `{{app_name}}`.**
+> **Next, run:** `/test-app {{app_name}}`
+> This executes the full Playwright suite, diagnoses any failures, and produces a report.

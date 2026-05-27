@@ -182,7 +182,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
                 `1. Copy ${args.name}/secrets.local.env.example to ${args.name}/secrets.local.env and fill in credentials.\n` +
                 `2. Edit ${args.name}/config.yaml (base_url, roles).\n` +
                 `3. Edit ${args.name}/description.md (journeys, rules, known bugs).\n` +
-                `4. Run the discover prompt to crawl the app.`,
+                `4. Next, run: /discover ${args.name}`,
             },
           ],
         };
