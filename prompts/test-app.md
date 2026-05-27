@@ -85,9 +85,23 @@ The report leads with **Migration Risk Findings** — failures tagged `@migratio
 
 ## Next step
 
-This is the final stage of the pipeline. After displaying the report, end your response with exactly this block:
+This is the final stage of the pipeline. After displaying the report, end your response with exactly this block (substitute `<run_dir>` with the actual timestamped run directory path returned in Step 1, e.g. `{{app_name}}/runs/2026-05-14T09-30-12`):
 
 > ✅ **`test-app` complete for `{{app_name}}`.** The report above is the final output of the pipeline.
+>
+> **Reports saved to `<run_dir>/`:**
+>
+> | Report                 | Path                                     |
+> | ---------------------- | ---------------------------------------- |
+> | Custom HTML report     | `<run_dir>/report.html`                  |
+> | Playwright HTML report | `<run_dir>/playwright-report/index.html` |
+>
+> **Open the Playwright report in your browser:**
+>
+> ```
+> npx playwright show-report <run_dir>/playwright-report
+> ```
+>
 > **Follow-ups:**
 >
 > - Re-run after fixes: `/test-app {{app_name}}`
